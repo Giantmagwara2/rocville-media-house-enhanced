@@ -3,6 +3,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Quantum Responsive Utilities */
+@media (max-width: 640px) {
+  .quantum-hero {
+    --particle-density: 0.3;
+    --neural-complexity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quantum-float,
+  .neural-pulse,
+  .holographic-shift {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Performance optimizations for quantum effects */
+.quantum-element {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
 @layer base {
   * {
     @apply border-gray-200;
