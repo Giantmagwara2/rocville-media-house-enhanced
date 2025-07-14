@@ -1,9 +1,16 @@
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
-import { connectDB } from './config/database';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+// Import utilities and middleware
+import { connectDatabase } from './config/database';
 import { logger } from './utils/logger';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -13,32 +20,12 @@ import contactRoutes from './routes/contact';
 import authRoutes from './routes/auth';
 import servicesRoutes from './routes/services';
 import analyticsRoutes from './routes/analytics';
-import dotenv from 'dotenv';
-import { connectDatabase } from './config/database.js';
-import { errorHandler } from './middleware/errorHandler.js';
-import authRoutes from './routes/auth.js';
-import portfolioRoutes from './routes/portfolio.js';
-import contactRoutes from './routes/contact.js';
-import servicesRoutes from './routes/services.js';
-import analyticsRoutes from './routes/analytics.js';
-
-dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      scriptSrc: ["'self'"]
-    }
-  }
-}));
+// Trust proxy
+app.set('trust proxy', 1);
 
 // Rate limiting
 const limiter = rateLimit({
@@ -48,6 +35,14 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Disable for development
+}));
+
+// Logging
+app.use(morgan('combined'));
+
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
@@ -56,7 +51,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(compression());
+// Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -73,6 +68,14 @@ app.get('/api/health', (req, res) => {
     status: 'OK', 
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
+  });
+});
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
   });
 });
 

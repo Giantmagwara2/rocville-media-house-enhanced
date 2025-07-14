@@ -4,7 +4,7 @@ import { body } from 'express-validator';
 import { Contact } from '../models/Contact.js';
 import { validateRequest } from '../middleware/validation.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { sendEmail } from '../services/emailService.js';
+import { sendEmail } from '../services/emailService';
 import { logger } from '../utils/logger.js';
 
 const router = Router();

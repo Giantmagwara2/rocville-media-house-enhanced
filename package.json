@@ -1,5 +1,9 @@
 {
   "devDependencies": {
     "tsx": "^4.20.3"
+  },
+  "dependencies": {
+    "@types/nodemailer": "^6.4.17",
+    "nodemailer": "^7.0.5"
   }
 }
