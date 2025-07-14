@@ -110,7 +110,7 @@ export default function ServicesPage() {
         <div className="relative">
           {/* Process Timeline */}
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary-200 transform -translate-x-1/2"></div>
-          
+
           <div className="space-y-12 relative">
             {/* Step 1 */}
             <div className="md:grid md:grid-cols-2 md:gap-8 items-center">
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                 />
               </div>
             </div>
-            
+
             {/* Step 2 */}
             <div className="md:grid md:grid-cols-2 md:gap-8 items-center">
               <div className="hidden md:block">
@@ -147,7 +147,7 @@ export default function ServicesPage() {
                 <div className="hidden md:block absolute top-6 left-0 w-6 h-6 rounded-full bg-primary border-4 border-white transform -translate-x-3"></div>
               </div>
             </div>
-            
+
             {/* Step 3 */}
             <div className="md:grid md:grid-cols-2 md:gap-8 items-center">
               <div className="md:text-right">
@@ -165,7 +165,7 @@ export default function ServicesPage() {
                 />
               </div>
             </div>
-            
+
             {/* Step 4 */}
             <div className="md:grid md:grid-cols-2 md:gap-8 items-center">
               <div className="hidden md:block">
@@ -245,17 +245,17 @@ export default function ServicesPage() {
             <h3 className="text-xl font-semibold mb-3">How long does a typical project take?</h3>
             <P>Project timelines vary depending on scope and complexity. A simple website might take 4-6 weeks, while a complex web application could take 3-6 months. During our discovery phase, we'll provide a detailed timeline specific to your project.</P>
           </div>
-          
+
           <div className="py-6">
             <h3 className="text-xl font-semibold mb-3">What is your pricing structure?</h3>
             <P>We offer flexible pricing options including fixed-price quotes for well-defined projects and hourly rates for ongoing work. We'll work with you to find a pricing structure that fits your budget and project needs.</P>
           </div>
-          
+
           <div className="py-6">
             <h3 className="text-xl font-semibold mb-3">Do you offer ongoing maintenance and support?</h3>
             <P>Yes, we offer various maintenance and support packages to ensure your digital assets remain secure, up-to-date, and performing optimally. These can be tailored to your specific needs and budget.</P>
           </div>
-          
+
           <div className="py-6">
             <h3 className="text-xl font-semibold mb-3">How do you handle project changes and revisions?</h3>
             <P>We build flexibility into our process and understand that requirements can evolve. Minor revisions are included in our project scope, while significant changes are addressed through our change request process to ensure transparency and proper planning.</P>
@@ -275,3 +275,59 @@ export default function ServicesPage() {
     </Layout>
   );
 }
+const services = [
+    {
+      title: "Quantum Web Development",
+      description: "Revolutionary web applications that transcend traditional boundaries with neural network-inspired interfaces and biomorphic design elements.",
+      features: ["Neural UI/UX Design", "Quantum Interactions", "AI-Powered Features", "Holographic Effects", "Responsive Morphing"],
+      price: "$5,000",
+      image: images.services.webDevelopment,
+      category: "Web Solutions",
+      gradient: "linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)"
+    },
+    {
+      title: "AI-Enhanced Mobile Apps",
+      description: "Next-generation mobile applications with integrated AI capabilities, predictive interfaces, and seamless biometric authentication.",
+      features: ["AI Integration", "Biometric Auth", "Predictive UI", "Neural Networks", "Quantum Security"],
+      price: "$8,000",
+      image: images.services.mobileApps,
+      category: "Mobile Solutions",
+      gradient: "linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(6, 255, 165, 0.2) 100%)"
+    },
+    {
+      title: "Holographic Branding",
+      description: "Avant-garde brand identity systems that challenge conventional design paradigms with multi-dimensional visual experiences.",
+      features: ["3D Brand Identity", "Holographic Design", "Interactive Logos", "Quantum Typography", "Neural Aesthetics"],
+      price: "$3,500",
+      image: images.services.branding,
+      category: "Brand Design",
+      gradient: "linear-gradient(135deg, rgba(6, 255, 165, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%)"
+    },
+    {
+      title: "Neural Consulting",
+      description: "Strategic technology consulting powered by AI analysis and quantum computing insights for business transformation.",
+      features: ["AI Strategy", "Digital Transformation", "Tech Architecture", "Innovation Labs", "Future Planning"],
+      price: "$2,500",
+      image: images.services.consulting,
+      category: "Consulting",
+      gradient: "linear-gradient(135deg, rgba(255, 20, 147, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)"
+    },
+    {
+      title: "Quantum Analytics",
+      description: "Advanced data analytics and visualization using quantum-inspired algorithms and neural network processing.",
+      features: ["Quantum Algorithms", "Predictive Analytics", "Real-time Insights", "Neural Processing", "Interactive Dashboards"],
+      price: "$4,200",
+      image: images.services.analytics,
+      category: "Data Science",
+      gradient: "linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(6, 255, 165, 0.2) 100%)"
+    },
+    {
+      title: "AI Super Agent Integration",
+      description: "Cutting-edge AI agents that provide 24/7 customer service, automated workflows, and intelligent task execution.",
+      features: ["24/7 AI Support", "Automated Workflows", "Multi-channel Integration", "Learning Algorithms", "Custom Training"],
+      price: "$12,000",
+      image: images.services.aiIntegration,
+      category: "AI Solutions",
+      gradient: "linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(255, 20, 147, 0.2) 100%)"
+    }
+  ];

@@ -1,246 +1,212 @@
-
-import React, { useEffect, useRef, useState, useMemo } from 'react'
-import { Button } from './button'
+import * as React from "react";
+import { Button } from "./button";
+import { images } from "../../assets/images";
 
 interface Particle {
-  x: number
-  y: number
-  vx: number
-  vy: number
-  life: number
-  maxLife: number
-  size: number
-  color: string
-}
-
-interface QuantumOrb {
-  x: number
-  y: number
-  targetX: number
-  targetY: number
-  size: number
-  opacity: number
-  hue: number
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  opacity: number;
 }
 
 export function Hero() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
-  const particlesRef = useRef<Particle[]>([])
-  const orbsRef = useRef<QuantumOrb[]>([])
-  const animationRef = useRef<number>()
+  const [particles, setParticles] = React.useState<Particle[]>([]);
+  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+  const heroRef = React.useRef<HTMLElement>(null);
+  const animationRef = React.useRef<number>();
 
-  // Enhanced particle system
-  const initializeParticles = useMemo(() => {
-    return () => {
-      const particles: Particle[] = []
-      for (let i = 0; i < 100; i++) {
-        particles.push({
-          x: Math.random() * dimensions.width,
-          y: Math.random() * dimensions.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          life: Math.random() * 100,
-          maxLife: 100 + Math.random() * 100,
-          size: Math.random() * 3 + 1,
-          color: `hsla(${180 + Math.random() * 60}, 70%, 60%, ${Math.random() * 0.8 + 0.2})`
-        })
-      }
-      return particles
+  React.useEffect(() => {
+    // Initialize particles
+    const newParticles: Particle[] = [];
+    for (let i = 0; i < 50; i++) {
+      newParticles.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.5 + 0.1
+      });
     }
-  }, [dimensions])
-
-  // Quantum orbs that follow mouse
-  const initializeOrbs = useMemo(() => {
-    return () => {
-      const orbs: QuantumOrb[] = []
-      for (let i = 0; i < 5; i++) {
-        orbs.push({
-          x: dimensions.width / 2,
-          y: dimensions.height / 2,
-          targetX: dimensions.width / 2,
-          targetY: dimensions.height / 2,
-          size: 20 + i * 10,
-          opacity: 0.1 - i * 0.015,
-          hue: 180 + i * 15
-        })
-      }
-      return orbs
-    }
-  }, [dimensions])
-
-  useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        setDimensions({ width: rect.width, height: rect.height })
-      }
-    }
-
-    updateDimensions()
-    window.addEventListener('resize', updateDimensions)
-    return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
-
-  useEffect(() => {
-    if (dimensions.width > 0 && dimensions.height > 0) {
-      particlesRef.current = initializeParticles()
-      orbsRef.current = initializeOrbs()
-    }
-  }, [dimensions, initializeParticles, initializeOrbs])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        })
-      }
-    }
-
-    const container = containerRef.current
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove)
-      return () => container.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [])
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas || dimensions.width === 0) return
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    canvas.width = dimensions.width
-    canvas.height = dimensions.height
+    setParticles(newParticles);
 
     const animate = () => {
-      ctx.clearRect(0, 0, dimensions.width, dimensions.height)
+      setParticles(prev => prev.map(particle => ({
+        ...particle,
+        x: particle.x + particle.vx,
+        y: particle.y + particle.vy,
+        x: particle.x > window.innerWidth ? 0 : particle.x < 0 ? window.innerWidth : particle.x,
+        y: particle.y > window.innerHeight ? 0 : particle.y < 0 ? window.innerHeight : particle.y
+      })));
+      animationRef.current = requestAnimationFrame(animate);
+    };
 
-      // Update and draw particles
-      particlesRef.current.forEach((particle, index) => {
-        particle.x += particle.vx
-        particle.y += particle.vy
-        particle.life++
-
-        // Boundary wrapping
-        if (particle.x < 0) particle.x = dimensions.width
-        if (particle.x > dimensions.width) particle.x = 0
-        if (particle.y < 0) particle.y = dimensions.height
-        if (particle.y > dimensions.height) particle.y = 0
-
-        // Respawn particle if life exceeded
-        if (particle.life > particle.maxLife) {
-          particle.life = 0
-          particle.x = Math.random() * dimensions.width
-          particle.y = Math.random() * dimensions.height
-        }
-
-        // Draw particle
-        const alpha = (1 - particle.life / particle.maxLife) * 0.8
-        ctx.save()
-        ctx.globalAlpha = alpha
-        ctx.fillStyle = particle.color
-        ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fill()
-        ctx.restore()
-      })
-
-      // Update and draw quantum orbs
-      orbsRef.current.forEach((orb, index) => {
-        const delay = index * 0.1
-        orb.targetX = mousePosition.x
-        orb.targetY = mousePosition.y
-        
-        orb.x += (orb.targetX - orb.x) * (0.1 - delay)
-        orb.y += (orb.targetY - orb.y) * (0.1 - delay)
-
-        // Draw orb with quantum glow
-        ctx.save()
-        ctx.globalAlpha = orb.opacity
-        const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.size)
-        gradient.addColorStop(0, `hsla(${orb.hue}, 70%, 60%, 0.8)`)
-        gradient.addColorStop(0.7, `hsla(${orb.hue}, 70%, 60%, 0.3)`)
-        gradient.addColorStop(1, `hsla(${orb.hue}, 70%, 60%, 0)`)
-        ctx.fillStyle = gradient
-        ctx.beginPath()
-        ctx.arc(orb.x, orb.y, orb.size, 0, Math.PI * 2)
-        ctx.fill()
-        ctx.restore()
-      })
-
-      animationRef.current = requestAnimationFrame(animate)
-    }
-
-    animate()
+    animationRef.current = requestAnimationFrame(animate);
 
     return () => {
       if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
+        cancelAnimationFrame(animationRef.current);
       }
+    };
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (heroRef.current) {
+      const rect = heroRef.current.getBoundingClientRect();
+      setMousePosition({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
     }
-  }, [dimensions, mousePosition])
+  };
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cosmic-deep">
-      {/* Quantum Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ mixBlendMode: 'screen' }}
-      />
-      
+    <section 
+      ref={heroRef}
+      className="quantum-hero relative min-h-screen flex items-center justify-center overflow-hidden bg-cosmic-deep"
+      onMouseMove={handleMouseMove}
+      style={{
+        background: `
+          linear-gradient(rgba(15, 15, 35, 0.8), rgba(15, 15, 35, 0.9)),
+          url(${images.hero.background})
+        `,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* Neural Network Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="neural-network"></div>
+      <div className="absolute inset-0 opacity-20">
+        <svg width="100%" height="100%" className="animate-pulse">
+          <defs>
+            <pattern id="neural-grid" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="50" cy="50" r="2" fill="var(--quantum-primary)" opacity="0.3"/>
+              <line x1="0" y1="50" x2="100" y2="50" stroke="var(--neural-purple)" strokeWidth="0.5" opacity="0.2"/>
+              <line x1="50" y1="0" x2="50" y2="100" stroke="var(--neural-purple)" strokeWidth="0.5" opacity="0.2"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#neural-grid)"/>
+        </svg>
+      </div>
+
+      {/* Animated Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {particles.map(particle => (
+          <div
+            key={particle.id}
+            className="absolute rounded-full bg-quantum-accent animate-pulse"
+            style={{
+              left: particle.x,
+              top: particle.y,
+              width: particle.size,
+              height: particle.size,
+              opacity: particle.opacity,
+              transform: `translate(-50%, -50%)`,
+              boxShadow: `0 0 ${particle.size * 2}px var(--quantum-accent)`
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Mouse Following Orb */}
+      <div
+        className="absolute pointer-events-none transition-all duration-300 ease-out"
+        style={{
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
+        <div className="w-32 h-32 rounded-full bg-gradient-to-r from-quantum-primary/20 to-neural-purple/20 blur-2xl animate-pulse" />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 holographic-text">
-          RocVille
-          <span className="block text-4xl md:text-6xl mt-2 text-quantum-accent">
-            Media House
-          </span>
-        </h1>
-        
-        <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed">
-          Where <span className="text-quantum-cyan font-semibold">quantum creativity</span> meets 
-          <span className="text-quantum-accent font-semibold"> neural innovation</span>. 
-          We craft digital experiences that transcend conventional boundaries.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
-            size="lg" 
-            className="quantum-button group relative overflow-hidden"
-          >
-            <span className="relative z-10">Explore Our Universe</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-quantum-primary to-quantum-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </Button>
-          
-          <Button 
-            size="lg" 
-            variant="outline"
-            className="neural-button border-quantum-cyan text-quantum-cyan hover:bg-quantum-cyan hover:text-cosmic-deep"
-          >
-            View Portfolio
-          </Button>
+      <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
+        <div className="space-y-8">
+          {/* Holographic Title */}
+          <h1 className="holographic-text text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+            <span className="block">Welcome to</span>
+            <span className="block bg-gradient-to-r from-quantum-primary via-neural-purple to-quantum-accent bg-clip-text text-transparent animate-gradient">
+              RocVille Media House
+            </span>
+          </h1>
+
+          {/* Quantum Subtitle */}
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed neural-glow">
+            Where <span className="text-quantum-accent font-semibold">Fluidic Futurism</span> meets 
+            <span className="text-neural-purple font-semibold"> Quantum Innovation</span>. 
+            We craft digital experiences that transcend traditional boundaries.
+          </p>
+
+          {/* Floating Feature Pills */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            {['AI-Powered Solutions', 'Quantum UI/UX', 'Neural Networks', 'Biomorphic Design'].map((feature, index) => (
+              <div
+                key={feature}
+                className="morphic-pill px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-quantum-accent font-medium"
+                style={{
+                  animationDelay: `${index * 0.2}s`
+                }}
+              >
+                {feature}
+              </div>
+            ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button 
+              size="lg" 
+              className="quantum-button px-8 py-4 text-lg font-semibold bg-gradient-to-r from-quantum-primary to-neural-purple hover:from-neural-purple hover:to-quantum-accent transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+            >
+              Explore Our Universe
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="neural-button px-8 py-4 text-lg font-semibold border-2 border-quantum-accent text-quantum-accent hover:bg-quantum-accent hover:text-cosmic-deep transition-all duration-300 transform hover:scale-105"
+            >
+              View Portfolio
+            </Button>
+          </div>
+
+          {/* Floating Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+            {[
+              { number: '150+', label: 'Projects Completed' },
+              { number: '98%', label: 'Client Satisfaction' },
+              { number: '24/7', label: 'AI Support' },
+              { number: '5★', label: 'Average Rating' }
+            ].map((stat, index) => (
+              <div
+                key={stat.label}
+                className="floating-card text-center p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-all duration-300"
+                style={{
+                  animationDelay: `${index * 0.1}s`
+                }}
+              >
+                <div className="text-3xl font-bold text-quantum-primary mb-2">{stat.number}</div>
+                <div className="text-gray-400 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Floating Geometric Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="floating-cube"></div>
-        <div className="floating-sphere"></div>
-        <div className="floating-pyramid"></div>
+      {/* Quantum Wave Effect */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cosmic-deep to-transparent">
+        <svg className="absolute bottom-0 w-full h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path 
+            d="M0,60 C150,120 350,0 500,60 C650,120 850,0 1000,60 C1050,80 1100,100 1200,60 L1200,120 L0,120 Z" 
+            fill="rgba(0, 212, 255, 0.1)"
+            className="animate-pulse"
+          />
+        </svg>
       </div>
     </section>
-  )
+  );
 }

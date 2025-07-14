@@ -1,154 +1,148 @@
-import * as React from "react";
-import { cn } from "../../lib/utils";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
-import { Button } from "./button";
 
-interface ServiceCardProps extends React.HTMLAttributes<HTMLDivElement> {
+import * as React from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card";
+import { Button } from "./button";
+import { Badge } from "./badge";
+import { images } from "../../assets/images";
+
+interface ServiceCardProps {
   title: string;
   description: string;
-  icon?: React.ReactNode;
-  features?: string[];
-  ctaText?: string;
-  ctaLink?: string;
-  variant?: "default" | "featured";
+  features: string[];
+  price?: string;
+  image: string;
+  category: string;
+  gradient: string;
 }
 
-const ServiceCard = React.forwardRef<HTMLDivElement, ServiceCardProps>(
-  ({ 
-    className, 
-    title, 
-    description, 
-    icon, 
-    features, 
-    ctaText = "Learn More", 
-    ctaLink = "#",
-    variant = "default",
-    ...props 
-  }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false);
-    
-    return (
-      <Card
-        ref={ref}
-        className={cn(
-          "morphic-card h-full transition-all duration-600 group relative overflow-hidden",
-          "hover:scale-105 hover:-translate-y-2",
-          variant === "featured" && "border-cyan-400/40",
-          className
-        )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
-        {/* Holographic overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 via-purple-400/5 to-green-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+export function ServiceCard({ 
+  title, 
+  description, 
+  features, 
+  price, 
+  image, 
+  category, 
+  gradient 
+}: ServiceCardProps) {
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <Card 
+      className="morphic-card group relative overflow-hidden border-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md hover:from-white/10 hover:to-white/15 transition-all duration-500 transform hover:scale-105 hover:rotate-1"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Background Gradient Effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: gradient
+        }}
+      />
+
+      {/* Image Section */}
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={image} 
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-cosmic-deep/80 to-transparent" />
         
-        {/* Floating particles on hover */}
+        {/* Category Badge */}
+        <Badge 
+          className="absolute top-4 left-4 bg-quantum-primary/90 text-cosmic-deep font-semibold"
+        >
+          {category}
+        </Badge>
+
+        {/* Floating Particles Effect */}
         {isHovered && (
           <div className="absolute inset-0 pointer-events-none">
-            {[...Array(3)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                className="absolute w-2 h-2 bg-quantum-accent rounded-full animate-ping"
                 style={{
-                  left: `${20 + i * 30}%`,
-                  top: `${30 + i * 20}%`,
-                  animationDelay: `${i * 0.5}s`
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${i * 0.2}s`
                 }}
               />
             ))}
           </div>
         )}
+      </div>
 
-        <CardHeader className="relative z-10">
-          {icon && (
-            <div className={cn(
-              "w-16 h-16 flex items-center justify-center rounded-2xl mb-6 transition-all duration-500 neural-pulse",
-              "bg-gradient-to-br from-cyan-400/20 to-purple-400/20 backdrop-blur-sm",
-              "group-hover:scale-110 group-hover:rotate-6 group-hover:shadow-lg group-hover:shadow-cyan-400/25",
-              variant === "featured" && "bg-gradient-to-br from-cyan-400/30 to-purple-400/30"
-            )}>
-              <div className="text-cyan-400 group-hover:text-white transition-colors duration-300">
-                {icon}
-              </div>
-            </div>
-          )}
-          <CardTitle className={cn(
-            "quantum-heading text-xl font-bold transition-all duration-300 text-white",
-            "group-hover:text-cyan-400"
-          )}>
-            {title}
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent className="relative z-10">
-          <p className="neural-body text-white/80 mb-6 leading-relaxed group-hover:text-white/90 transition-colors duration-300">
-            {description}
-          </p>
-          
-          {features && features.length > 0 && (
-            <ul className="space-y-3">
-              {features.map((feature, index) => (
-                <li 
-                  key={index} 
-                  className="flex items-center fade-in-up" 
-                  style={{animationDelay: `${index * 100}ms`}}
-                >
-                  <div className="w-5 h-5 mr-3 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 flex items-center justify-center neural-pulse">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-white"
-                    >
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </div>
-                  <span className="neural-body text-white/70 text-sm group-hover:text-white/90 transition-colors duration-300">
-                    {feature}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-        
-        <CardFooter className="relative z-10">
-          <Button 
-            variant={variant === "featured" ? "primary" : "tertiary"} 
-            className={cn(
-              "quantum-btn w-full font-semibold transition-all duration-300",
-              "hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/25"
-            )}
-            asChild
-          >
-            <a href={ctaLink}>{ctaText}</a>
-          </Button>
-        </CardFooter>
-        
-        {/* Neural connection lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="neural-line" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgb(6, 182, 212)" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-          <line x1="0" y1="50%" x2="100%" y2="50%" stroke="url(#neural-line)" strokeWidth="1" className="group-hover:opacity-100 transition-opacity duration-500" />
-          <line x1="50%" y1="0" x2="50%" y2="100%" stroke="url(#neural-line)" strokeWidth="1" className="group-hover:opacity-100 transition-opacity duration-500" />
-        </svg>
-      </Card>
-    );
-  }
-);
+      <CardHeader className="relative z-10">
+        <CardTitle className="text-xl font-bold text-quantum-primary group-hover:text-quantum-accent transition-colors duration-300">
+          {title}
+        </CardTitle>
+        <CardDescription className="text-gray-300 leading-relaxed">
+          {description}
+        </CardDescription>
+      </CardHeader>
 
-ServiceCard.displayName = "ServiceCard";
+      <CardContent className="relative z-10 space-y-4">
+        {/* Features List */}
+        <ul className="space-y-2">
+          {features.map((feature, index) => (
+            <li 
+              key={index} 
+              className="flex items-center text-sm text-gray-300"
+            >
+              <div className="w-2 h-2 bg-quantum-accent rounded-full mr-3 animate-pulse" />
+              {feature}
+            </li>
+          ))}
+        </ul>
 
-export { ServiceCard };
+        {/* Price Display */}
+        {price && (
+          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+            <span className="text-sm text-gray-400">Starting at</span>
+            <span className="text-2xl font-bold text-quantum-accent">{price}</span>
+          </div>
+        )}
+      </CardContent>
 
+      <CardFooter className="relative z-10">
+        <Button 
+          className="w-full bg-gradient-to-r from-quantum-primary to-neural-purple hover:from-neural-purple hover:to-quantum-accent transition-all duration-300 transform hover:scale-105"
+          onClick={() => window.location.href = '/contact'}
+        >
+          Learn More
+        </Button>
+      </CardFooter>
+
+      {/* Neural Network Connection Lines */}
+      <svg 
+        className="absolute inset-0 pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity duration-500"
+        width="100%" 
+        height="100%"
+      >
+        <defs>
+          <linearGradient id={`neural-${title}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--quantum-primary)" />
+            <stop offset="100%" stopColor="var(--neural-purple)" />
+          </linearGradient>
+        </defs>
+        <path 
+          d="M0,0 Q50,25 100,0 T200,0" 
+          stroke={`url(#neural-${title})`} 
+          strokeWidth="1" 
+          fill="none"
+          className="animate-pulse"
+        />
+        <path 
+          d="M0,100 Q50,75 100,100 T200,100" 
+          stroke={`url(#neural-${title})`} 
+          strokeWidth="1" 
+          fill="none"
+          className="animate-pulse"
+          style={{ animationDelay: '1s' }}
+        />
+      </svg>
+    </Card>
+  );
+}

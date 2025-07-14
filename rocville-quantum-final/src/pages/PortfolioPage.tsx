@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [filteredProjects, setFilteredProjects] = useState(PORTFOLIO_ITEMS);
-  
+
   const categories = [
     { id: "all", label: "All Projects" },
     { id: "web-development", label: "Web Development" },
@@ -75,7 +75,7 @@ export default function PortfolioPage() {
             />
           ))}
         </div>
-        
+
         {filteredProjects.length === 0 && (
           <div className="text-center py-12">
             <H3>No projects found in this category</H3>
@@ -101,7 +101,7 @@ export default function PortfolioPage() {
             <H3 className="text-xl mb-2">Discovery</H3>
             <P>We start by understanding your business goals, target audience, and project requirements.</P>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-medium">
             <div className="w-12 h-12 rounded-full bg-primary-100 text-primary flex items-center justify-center text-xl font-bold mb-4">
               2
@@ -109,7 +109,7 @@ export default function PortfolioPage() {
             <H3 className="text-xl mb-2">Strategy</H3>
             <P>We develop a comprehensive strategy and project plan with clear milestones and deliverables.</P>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-medium">
             <div className="w-12 h-12 rounded-full bg-primary-100 text-primary flex items-center justify-center text-xl font-bold mb-4">
               3
@@ -117,7 +117,7 @@ export default function PortfolioPage() {
             <H3 className="text-xl mb-2">Creation</H3>
             <P>Our team brings your project to life with attention to detail, quality, and innovation.</P>
           </div>
-          
+
           <div className="bg-white p-6 rounded-lg shadow-medium">
             <div className="w-12 h-12 rounded-full bg-primary-100 text-primary flex items-center justify-center text-xl font-bold mb-4">
               4

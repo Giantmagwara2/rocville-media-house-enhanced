@@ -7,7 +7,7 @@ interface LayoutProps {
   transparentHeader?: boolean;
 }
 
-export function Layout({ children, transparentHeader = false }: LayoutProps) {
+export default function Layout({ children, transparentHeader = false }: LayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar transparent={transparentHeader} />
@@ -18,3 +18,5 @@ export function Layout({ children, transparentHeader = false }: LayoutProps) {
     </div>
   );
 }
+
+export { Layout };
