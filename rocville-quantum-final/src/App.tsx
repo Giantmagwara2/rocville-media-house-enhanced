@@ -1,39 +1,54 @@
-import React from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
-
-const HomePage = lazy(() => import('./pages/HomePage'))
-const AboutUsPage = lazy(() => import('./pages/AboutUsPage'))
-const ServicesPage = lazy(() => import('./pages/ServicesPage'))
-const PortfolioPage = lazy(() => import('./pages/PortfolioPage'))
-const ContactUsPage = lazy(() => import('./pages/ContactUsPage'))
-const BlogPage = lazy(() => import('./pages/BlogPage'))
-import Layout from './components/layout'
+import { Navbar } from './components/ui/navbar'
+import { Footer } from './components/ui/footer'
+import HomePage from './pages/HomePage'
+import AboutUsPage from './pages/AboutUsPage'
+import ServicesPage from './pages/ServicesPage'
+import PortfolioPage from './pages/PortfolioPage'
+import ContactUsPage from './pages/ContactUsPage'
+import BlogPage from './pages/BlogPage'
+import { Toaster } from './components/ui/toaster'
+import { ErrorBoundary } from './components/ui/error-boundary'
+import FloatingAIAssistant from './components/ui/floating-ai-assistant'
+import { AIChatWidget } from './components/ui/ai-chat-widget'
 import './App.css'
 
 function App() {
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
+
+  const toggleAIChat = () => {
+    setIsAIChatOpen(!isAIChatOpen);
+  };
+
   return (
-    <Router>
-      <Layout>
-        <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center bg-cosmic-deep">
-            <div className="quantum-loader">
-              <div className="neural-pulse"></div>
-              <p className="text-quantum-cyan mt-4">Loading quantum experience...</p>
-            </div>
-          </div>
-        }>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutUsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/portfolio" element={<PortfolioPage />} />
-            <Route path="/contact" element={<ContactUsPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-          </Routes>
-        </Suspense>
-      </Layout>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-cyan-50/30">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutUsPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/portfolio" element={<PortfolioPage />} />
+              <Route path="/contact" element={<ContactUsPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+            </Routes>
+          </main>
+          <Footer />
+          <Toaster />
+
+          {/* AI Assistant Components */}
+          <FloatingAIAssistant onToggle={toggleAIChat} isOpen={isAIChatOpen} />
+          <AIChatWidget 
+            isOpen={isAIChatOpen} 
+            onToggle={toggleAIChat} 
+            phoneNumber="254753426492"
+          />
+        </div>
+      </Router>
+    </ErrorBoundary>
   )
 }
 

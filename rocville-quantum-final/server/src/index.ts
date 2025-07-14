@@ -20,6 +20,7 @@ import contactRoutes from './routes/contact';
 import authRoutes from './routes/auth';
 import servicesRoutes from './routes/services';
 import analyticsRoutes from './routes/analytics';
+import aiAgentRoutes from './routes/ai-agent';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -61,6 +62,7 @@ app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/services', servicesRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/ai', aiAgentRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
