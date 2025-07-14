@@ -276,4 +276,77 @@ export function AIChatWidget({
   );
 }
 
+const generateEnhancedAIResponse = async (userInput: string, intentAnalysis: any, context: any): Promise<string> => {
+    const input = userInput.toLowerCase();
+    const urgency = intentAnalysis?.urgency_level || 0.5;
+    const emotionalState = intentAnalysis?.emotional_state?.sentiment || 'neutral';
+    const businessContext = intentAnalysis?.business_context || {};
+
+    // Use advanced AI processing
+    try {
+      const multiModalInput = {
+        text: userInput,
+        metadata: {
+          urgency,
+          emotionalState,
+          businessContext,
+          user_preferences: context?.user_preferences || [],
+          timestamp: new Date().toISOString()
+        }
+      };
+
+      const response = await fetch('/api/training/test-enhanced-ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userInput,
+          phone: 'web_user_' + Date.now(),
+          location: getUserLocation(),
+          user_profile: context
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        let aiResponse = result.data.ai_response;
+
+        // Add urgency handling
+        if (urgency > 0.8) {
+          aiResponse = "⚡ I understand this is urgent! " + aiResponse + "\n\nFor immediate assistance, please call us at 0753426492 or WhatsApp us directly.";
+        }
+
+        // Add emotional context
+        if (emotionalState === 'frustrated' || emotionalState === 'negative') {
+          aiResponse = "I understand your concerns, and I'm here to help resolve them. " + aiResponse;
+        } else if (emotionalState === 'excited' || emotionalState === 'positive') {
+          aiResponse = "That's fantastic! I love your enthusiasm! " + aiResponse;
+        }
+
+        // Add personalization
+        if (context?.user_preferences?.length > 0) {
+          aiResponse += "\n\n💡 Based on our conversation, I think you might also be interested in our " + 
+                        context.user_preferences.join(', ') + " services.";
+        }
+
+        return aiResponse;
+      }
+    } catch (error) {
+      console.error('Enhanced AI processing failed:', error);
+    }
+
+    // Fallback to basic response
+    return generateAIResponse(userInput);
+  };
+
+  const getUserLocation = () => {
+    return {
+      country: 'US',
+      city: 'Unknown',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    };
+  };
+
 export default AIChatWidget;

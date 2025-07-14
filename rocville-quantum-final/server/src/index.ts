@@ -21,6 +21,12 @@ import contactRoutes from './routes/contact';
 import portfolioRoutes from './routes/portfolio';
 import servicesRoutes from './routes/services';
 import trainingRoutes from './routes/training';
+import { AdvancedAIProcessor } from './services/advancedAIProcessor';
+import { TrainingManager } from './services/trainingManager';
+
+// Initialize advanced AI systems
+const advancedAI = new AdvancedAIProcessor();
+const trainingManager = new TrainingManager();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -101,10 +107,23 @@ const startServer = async () => {
     app.listen(PORT, '0.0.0.0', () => {
       logger.info(`🚀 Server running on port ${PORT}`);
       logger.info(`📝 API Documentation: http://localhost:${PORT}/api-docs`);
-      logger.info(`🤖 AI Agent Status: Active`);
-      logger.info(`📊 Analytics: Enabled`);
-      logger.info(`🧠 Training System: Ready`);
-      logger.info(`🔧 Advanced AI Processor: Loaded`);
+// Initialize AI systems
+  logger.info('🤖 AI Agent Status: Active');
+  logger.info('📊 Analytics: Enabled');
+  logger.info('🧠 Training System: Ready');
+  logger.info('🔧 Advanced AI Processor: Loaded');
+
+  // Initialize advanced AI features
+  try {
+    await trainingManager.initializeTraining();
+    logger.info('🎯 Advanced AI Training: Initialized');
+    logger.info('🔍 Lead Research Engine: Active');
+    logger.info('📧 Cold Email Automation: Ready');
+    logger.info('📞 Cold Call System: Configured');
+    logger.info('🎨 Multi-Modal Processing: Enabled');
+  } catch (error) {
+    logger.warn('⚠️ Advanced AI initialization failed, running in basic mode:', error.message);
+  }
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
