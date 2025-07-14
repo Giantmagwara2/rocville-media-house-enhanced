@@ -19,5 +19,5 @@ export default function Layout({ children, transparentHeader = false }: LayoutPr
   );
 }
 
-export default Layout;
 export { Layout };
+export default Layout;
