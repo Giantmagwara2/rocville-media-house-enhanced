@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact RocVille Media House experts across 10 creative divisions for tailored solutions">
+  <meta property="og:title" content="Contact Creative Experts - RocVille Media House">
+  <meta property="og:description" content="Direct access to division specialists in music, design, events, and digital innovation">
+  <meta property="og:image" content="https://rmh.netlify.app/images/contact-og.webp">
+  <title>Contact Creative Experts - RocVille Media House</title>
+  
+  <!-- Preload Critical Resources -->
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="images/logo.webp" as="image">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="sticky-header">
+    <div class="container">
+      <picture>
+        <source srcset="images/logo.webp" type="image/webp">
+        <img src="images/logo.png" alt="RocVille Media House" class="logo" width="150" height="50" loading="lazy">
+      </picture>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Work</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-contact" id="main-content">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Connect With Creatives</h1>
+      <div class="typewriter">
+        <span class="type-text">Innovation Starts Here</span>
+        <span class="type-cursor" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator" aria-hidden="true"></div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-main">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-form" data-aos="fade-right">
+          <div class="form-header">
+            <h2>Start Your Project</h2>
+            <p>Complete the form and we'll connect you with the right team</p>
+          </div>
+          <form id="contactForm" class="enhanced-form">
+            <div class="form-step active" data-step="1">
+              <div class="form-group">
+                <label for="division">Select Division</label>
+                <div class="custom-select">
+                  <select id="division" name="division" required>
+                    <option value="">Choose creative division</option>
+                    <option value="music">Music Production</option>
+                    <option value="design">Design & Branding</option>
+                    <option value="events">Event Experiences</option>
+                    <option value="art">Art Direction</option>
+                    <option value="advertising">Advertising</option>
+                    <option value="fashion">Fashion Strategy</option>
+                    <option value="management">Artist Management</option>
+                    <option value="publishing">Content Publishing</option>
+                    <option value="travel">Travel Branding</option>
+                    <option value="pictures">Visual Content</option>
+                  </select>
+                </div>
+              </div>
+              <button type="button" class="btn next-step">Continue</button>
+            </div>
+
+            <div class="form-step" data-step="2">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required 
+                       placeholder="Your full name" autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="email">Professional Email</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="name@company.com" autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="phone">Contact Number</label>
+                <input type="tel" id="phone" name="phone" 
+                       placeholder="+27 12 345 6789" autocomplete="tel">
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn prev-step">Back</button>
+                <button type="button" class="btn next-step">Continue</button>
+              </div>
+            </div>
+
+            <div class="form-step" data-step="3">
+              <div class="form-group">
+                <label for="message">Project Details</label>
+                <textarea id="message" name="message" rows="5" required 
+                          placeholder="Describe your project goals and requirements"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="attachment">Attach Files (optional)</label>
+                <input type="file" id="attachment" name="attachment" 
+                       accept=".pdf,.doc,.docx,.jpg,.png">
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn prev-step">Back</button>
+                <button type="submit" class="btn">Submit Project</button>
+              </div>
+            </div>
+            
+            <div class="form-progress">
+              <div class="progress-bar" style="width: 33%"></div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info" data-aos="fade-left">
+          <div class="info-header">
+            <h2>Division Experts</h2>
+            <div class="search-box">
+              <input type="text" placeholder="Search divisions..." id="divisionSearch">
+              <button class="btn-search" aria-label="Search divisions">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"/></svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="division-list">
+            <!-- Music Division -->
+            <div class="division-card" data-division="music">
+              <div class="division-color" style="--div-color: #ff6b6b"></div>
+              <img src="images/icon-music.webp" alt="Music Division" loading="lazy">
+              <div class="division-details">
+                <h3>Music Production</h3>
+                <p>John Doe<br>Creative Director</p>
+                <a href="mailto:music@rocville.com" class="btn-contact">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                  Contact Team
+                </a>
+              </div>
+            </div>
+            
+            <!-- Other divisions... -->
+          </div>
+          
+          <div class="location-info">
+            <h3>Headquarters</h3>
+            <div class="map-placeholder" aria-hidden="true">
+              <div class="map-pin"></div>
+            </div>
+            <address>
+              27 Innovation Drive<br>
+              Creative District<br>
+              Johannesburg, 2196
+            </address>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-urgent">
+        <h3>Urgent Inquiry?</h3>
+        <a href="tel:+27726591594" class="emergency-contact">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          +27 72 659 1594
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/contact.js" type="module"></script>
+</body>
+</html>
