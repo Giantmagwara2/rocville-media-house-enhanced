@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
@@ -48,7 +47,7 @@ export function ServiceCard({
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-cosmic-deep/80 to-transparent" />
-        
+
         {/* Category Badge */}
         <Badge 
           className="absolute top-4 left-4 bg-quantum-primary/90 text-cosmic-deep font-semibold"
