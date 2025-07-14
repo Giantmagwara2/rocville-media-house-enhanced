@@ -9,12 +9,25 @@ run = ["sh", "-c", "cd rocville-quantum-final && yarn preview --host 0.0.0.0 --p
 build = ["sh", "-c", "cd rocville-quantum-final && yarn build"]
 
 [workflows]
-runButton = "Development Server"
+runButton = "Full Stack Development"
 
 [[workflows.workflow]]
 name = "Development Server"
 author = 42501159
 mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd rocville-quantum-final && yarn dev"
+
+[[workflows.workflow]]
+name = "Full Stack Development"
+author = 42501159
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd rocville-quantum-final/server && npm install && npm run dev"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
