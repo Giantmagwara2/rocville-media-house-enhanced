@@ -46,6 +46,7 @@ const images = {
   }
 };
 
+export { images };
 export default images;
 
 export const icons = {

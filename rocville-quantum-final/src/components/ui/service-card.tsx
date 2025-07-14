@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Badge } from "./badge";
@@ -109,6 +109,7 @@ export function ServiceCard({
         <Button 
           className="w-full bg-gradient-to-r from-quantum-primary to-neural-purple hover:from-neural-purple hover:to-quantum-accent transition-all duration-300 transform hover:scale-105"
           onClick={() => window.location.href = '/contact'}
+          asChild={false}
         >
           Learn More
         </Button>

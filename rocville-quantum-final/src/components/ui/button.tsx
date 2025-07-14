@@ -11,7 +11,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", isActive, asChild, ...props }, ref) => {
     const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
-    
+
     const variants = {
       primary: "bg-primary text-white hover:bg-primary-700 focus-visible:ring-primary",
       secondary: "bg-secondary text-white hover:bg-secondary-700 focus-visible:ring-secondary",
@@ -22,7 +22,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       cta: "bg-accent text-white hover:bg-accent-600 focus-visible:ring-accent font-bold",
       tertiary: "bg-neutral-100 text-neutral-800 hover:bg-neutral-200 focus-visible:ring-neutral-400",
     };
-    
+
     const sizes = {
       sm: "h-9 px-3 rounded-md",
       md: "h-10 px-4 py-2",
@@ -44,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ...props,
       });
     }
-    
+
     return (
       <button
         className={cn(
@@ -73,7 +73,7 @@ export const buttonVariants = ({
   className?: string;
 } = {}) => {
   const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
-  
+
   const variants = {
     primary: "bg-primary text-white hover:bg-primary-700 focus-visible:ring-primary",
     secondary: "bg-secondary text-white hover:bg-secondary-700 focus-visible:ring-secondary",
@@ -84,7 +84,7 @@ export const buttonVariants = ({
     cta: "bg-accent text-white hover:bg-accent-600 focus-visible:ring-accent font-bold",
     tertiary: "bg-neutral-100 text-neutral-800 hover:bg-neutral-200 focus-visible:ring-neutral-400",
   };
-  
+
   const sizes = {
     sm: "h-9 px-3 rounded-md",
     md: "h-10 px-4 py-2",
