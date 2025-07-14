@@ -276,13 +276,13 @@ export function AIChatWidget({
   );
 }
 
-const generateEnhancedAIResponse = async (userInput: string, intentAnalysis: any, context: any): Promise<string> => {
+const generateEnhancedAIResponse = useCallback(async (userInput: string, intentAnalysis: any, context: any): Promise<string> => {
     const input = userInput.toLowerCase();
     const urgency = intentAnalysis?.urgency_level || 0.5;
     const emotionalState = intentAnalysis?.emotional_state?.sentiment || 'neutral';
     const businessContext = intentAnalysis?.business_context || {};
 
-    // Use advanced AI processing
+    // Use advanced AI processing with error handling
     try {
       const multiModalInput = {
         text: userInput,
@@ -305,12 +305,17 @@ const generateEnhancedAIResponse = async (userInput: string, intentAnalysis: any
           phone: 'web_user_' + Date.now(),
           location: getUserLocation(),
           user_profile: context
-        })
+        }),
+        signal: AbortSignal.timeout(15000) // 15 second timeout
       });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
 
       const result = await response.json();
 
-      if (result.success) {
+      if (result.success && result.data?.ai_response) {
         let aiResponse = result.data.ai_response;
 
         // Add urgency handling
@@ -338,8 +343,26 @@ const generateEnhancedAIResponse = async (userInput: string, intentAnalysis: any
     }
 
     // Fallback to basic response
-    return generateAIResponse(userInput);
-  };
+    return generateBasicAIResponse(userInput);
+  }, []);
+
+  const generateBasicAIResponse = useCallback((userInput: string): string => {
+    const input = userInput.toLowerCase();
+    
+    if (input.includes('price') || input.includes('cost') || input.includes('budget')) {
+      return "Our services are competitively priced! Web development starts at $2,500, digital marketing at $1,500, and branding at $1,200. Let's discuss your specific needs to provide you with a detailed quote. What kind of project are you planning?";
+    }
+    
+    if (input.includes('web') || input.includes('website') || input.includes('development')) {
+      return "We create stunning, responsive websites that drive results! Our web development services include custom design, e-commerce solutions, CMS integration, and mobile optimization. Would you like to see some of our recent work or discuss your project requirements?";
+    }
+    
+    if (input.includes('marketing') || input.includes('seo') || input.includes('social')) {
+      return "Our digital marketing strategies help businesses grow their online presence! We offer SEO, PPC advertising, social media marketing, and content creation. What's your current biggest marketing challenge?";
+    }
+    
+    return "Hello! I'm here to help you with all your digital needs. RocVille Media House specializes in web development, digital marketing, branding, and AI solutions. What project can we help you with today?";
+  }, []);
 
   const getUserLocation = () => {
     return {

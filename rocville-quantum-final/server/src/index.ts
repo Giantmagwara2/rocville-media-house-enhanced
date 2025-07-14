@@ -115,12 +115,15 @@ const startServer = async () => {
 
   // Initialize advanced AI features
   try {
-    await trainingManager.initializeTraining();
-    logger.info('🎯 Advanced AI Training: Initialized');
-    logger.info('🔍 Lead Research Engine: Active');
-    logger.info('📧 Cold Email Automation: Ready');
-    logger.info('📞 Cold Call System: Configured');
-    logger.info('🎨 Multi-Modal Processing: Enabled');
+    trainingManager.initializeTraining().then(() => {
+      logger.info('🎯 Advanced AI Training: Initialized');
+      logger.info('🔍 Lead Research Engine: Active');
+      logger.info('📧 Cold Email Automation: Ready');
+      logger.info('📞 Cold Call System: Configured');
+      logger.info('🎨 Multi-Modal Processing: Enabled');
+    }).catch((error) => {
+      logger.warn('⚠️ Advanced AI initialization failed, running in basic mode:', error.message);
+    });
   } catch (error) {
     logger.warn('⚠️ Advanced AI initialization failed, running in basic mode:', error.message);
   }

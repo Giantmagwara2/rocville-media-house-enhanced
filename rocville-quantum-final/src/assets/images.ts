@@ -2,9 +2,12 @@
 export const images = {
   // Hero images
   hero: {
-    main: '/images/hero-main.jpg',
-    background: '/images/hero-bg.jpg',
-    overlay: '/images/hero-overlay.png'
+    main: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=800&fit=crop&auto=format",
+    services: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=800&fit=crop&auto=format",
+    portfolio: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=800&fit=crop&auto=format",
+    about: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=800&fit=crop&auto=format",
+    contact: "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1200&h=800&fit=crop&auto=format",
+    ai_agent: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=800&fit=crop&auto=format"
   },
 
   // Service images
