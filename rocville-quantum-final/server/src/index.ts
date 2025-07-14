@@ -3,6 +3,7 @@ import cors from 'cors';
 import compression from 'compression';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import rateLimit from 'express-rate-limit';
 import { 
   securityHeaders, 
   apiRateLimit, 
@@ -11,8 +12,8 @@ import {
   requestLogger,
   corsConfig,
   preventSQLInjection
-} from './middleware/security.js';
-import { trackSuspiciousActivity } from './utils/securityAudit.js';
+} from './middleware/security';
+import { trackSuspiciousActivity } from './utils/securityAudit';
 
 // Load environment variables
 dotenv.config();
@@ -30,9 +31,11 @@ import contactRoutes from './routes/contact';
 import portfolioRoutes from './routes/portfolio';
 import servicesRoutes from './routes/services';
 import trainingRoutes from './routes/training';
+import healthRoutes from './routes/health';
 import { AdvancedAIProcessor } from './services/advancedAIProcessor';
 import { TrainingManager } from './services/trainingManager';
 import { productionConfig } from './config/production';
+import { errorRecoveryMiddleware } from './middleware/errorRecovery';
 
 // Initialize advanced AI systems
 const advancedAI = new AdvancedAIProcessor();
@@ -64,6 +67,7 @@ app.use(sanitizeInput);
 app.use(preventSQLInjection);
 app.use(trackSuspiciousActivity);
 app.use(apiRateLimit);
+app.use(errorRecoveryMiddleware);
 
 // Routes
 app.use('/api/ai', aiAgentRoutes);
@@ -73,6 +77,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/services', servicesRoutes);
 app.use('/api/training', trainingRoutes);
+app.use('/api/health', healthRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
