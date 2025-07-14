@@ -33,6 +33,19 @@ args = "cd rocville-quantum-final/server && npm install && npm run dev"
 task = "shell.exec"
 args = "cd rocville-quantum-final && yarn dev"
 
+[[workflows.workflow]]
+name = "Production Build"
+author = 42501159
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd rocville-quantum-final && yarn build"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd rocville-quantum-final/server && npm run build"
+
 [[ports]]
 localPort = 5000
 externalPort = 5000

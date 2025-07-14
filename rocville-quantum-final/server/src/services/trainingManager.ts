@@ -522,4 +522,4 @@ export class TrainingManager {
   }
 }
 
-export { TrainingManager };
+// Export removed - already exported as default

@@ -330,3 +330,18 @@
   position: relative;
   overflow: hidden;
 }
+
+@keyframes quantumParticles {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(10px, 10px) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-5px, -5px) scale(0.8);
+    opacity: 0.6;
+  }
+}

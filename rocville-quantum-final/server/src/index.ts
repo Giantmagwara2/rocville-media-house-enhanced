@@ -32,6 +32,7 @@ import servicesRoutes from './routes/services';
 import trainingRoutes from './routes/training';
 import { AdvancedAIProcessor } from './services/advancedAIProcessor';
 import { TrainingManager } from './services/trainingManager';
+import { productionConfig } from './config/production';
 
 // Initialize advanced AI systems
 const advancedAI = new AdvancedAIProcessor();
@@ -105,10 +106,11 @@ const startServer = async () => {
       // Continue without database - API will work with in-memory storage
     }
 
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, '0.0.0.0', () => {
-      logger.info(`🚀 Server running on port ${PORT}`);
-      logger.info(`📝 API Documentation: http://localhost:${PORT}/api-docs`);
+    const { port, host } = productionConfig;
+
+    app.listen(port, host, () => {
+      logger.info(`🚀 Server running on ${host}:${port}`);
+      logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 // Initialize AI systems
   logger.info('🤖 AI Agent Status: Active');
   logger.info('📊 Analytics: Enabled');
