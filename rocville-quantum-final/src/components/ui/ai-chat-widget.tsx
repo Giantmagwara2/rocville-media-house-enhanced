@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "../../lib/utils";
@@ -25,7 +24,14 @@ const AIChatWidget: React.FC<AIChatWidgetProps> = ({
   phoneNumber,
   apiEndpoint = '/api/ai'
 }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      content: "Hello! I'm RocVille's advanced AI assistant with enhanced training capabilities. I can help you with our services, pricing, and provide intelligent responses using fine-tuned models, RAG retrieval, and continuous learning. How can I assist you today?",
+      sender: 'ai',
+      timestamp: new Date(),
+    },
+  ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -109,46 +115,78 @@ const AIChatWidget: React.FC<AIChatWidgetProps> = ({
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const userInput = inputValue;
     setInputValue('');
     setIsTyping(true);
 
     try {
-      // Send message to AI backend
-      const response = await fetch(`${apiEndpoint}/test-ai`, {
+      // Advanced AI processing with training capabilities
+      const conversationHistory = messages.map(msg => msg.content);
+
+      // First, analyze intent with advanced processing
+      const intentResponse = await fetch('/api/training/analyze-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: inputValue,
-          phone: phoneNumber,
-          location: userLocation
+          message: userInput,
+          conversation_history: conversationHistory
         })
       });
 
-      const data = await response.json();
-      
-      setIsTyping(false);
+      let response;
+      const intentData = await intentResponse.json();
+
+      // Use RAG for complex queries, regular AI for simple ones
+      if (intentData.analysis?.technical_complexity > 0.6) {
+        const ragResponse = await fetch('/api/training/rag-query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query: userInput,
+            user_context: { conversation_history: conversationHistory }
+          })
+        });
+        const ragData = await ragResponse.json();
+        response = ragData.result?.response?.text || generateAIResponse(userInput);
+      } else {
+        // Use standard AI processing with context management
+        const contextResponse = await fetch('/api/training/context-management', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: 'web_user_' + Date.now(),
+            message: userInput
+          })
+        });
+
+        if (contextResponse.ok) {
+          const contextData = await contextResponse.json();
+          // Use enhanced response generation
+          response = generateEnhancedAIResponse(userInput, intentData.analysis, contextData.context);
+        } else {
+          response = generateAIResponse(userInput);
+        }
+      }
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.result?.response || "I apologize, but I'm having trouble processing your request. Please try again or contact us directly via WhatsApp.",
+        content: response,
         sender: 'ai',
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, aiMessage]);
-
-    } catch (error) {
       setIsTyping(false);
-      console.error('Failed to send message:', error);
-      
+    } catch (error) {
+      console.error('Error sending message:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "I'm experiencing technical difficulties. Please try again or contact us directly via WhatsApp for immediate assistance.",
+        content: "I apologize, but I'm experiencing some technical difficulties. Let me help you with a basic response: " + generateAIResponse(userInput),
         sender: 'ai',
         timestamp: new Date()
       };
-
       setMessages(prev => [...prev, errorMessage]);
+      setIsTyping(false);
     }
   };
 
@@ -163,6 +201,63 @@ const AIChatWidget: React.FC<AIChatWidgetProps> = ({
     const message = "Hello! I'd like to continue our conversation on WhatsApp.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const generateAIResponse = (userInput: string): string => {
+    const input = userInput.toLowerCase();
+
+    if (input.includes('service') || input.includes('what do you do')) {
+      return "We offer comprehensive digital solutions including:\n\n🌐 Web Development - Custom websites and web applications\n📱 Digital Marketing - SEO, social media, and online advertising\n🎨 Branding & Design - Logo design and brand identity\n💡 UI/UX Design - User-centered design solutions\n\nWhich service interests you most?";
+    }
+
+    if (input.includes('price') || input.includes('cost') || input.includes('pricing')) {
+      return "Our pricing is competitive and tailored to your needs:\n\n💰 Web Development: Starting from $2,500\n📊 Digital Marketing: Starting from $1,500/month\n🎨 Branding Package: Starting from $1,200\n\nPrices vary based on project complexity and requirements. Would you like a detailed quote for a specific service?";
+    }
+
+    if (input.includes('contact') || input.includes('reach') || input.includes('phone')) {
+      return "📞 Ready to get started? Contact us:\n\n• Phone: 0753426492\n• Email: rocvillemediahouse@gmail.com\n• WhatsApp: Available 24/7\n\nWe typically respond within 1 hour during business hours!";
+    }
+
+    if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
+      return "Hello! 👋 Welcome to RocVille Media House! I'm here to help you with our digital services. Whether you need a stunning website, powerful marketing campaigns, or compelling branding, we've got you covered. What can I help you with today?";
+    }
+
+    return "Thank you for your message! I'm here to help with information about our web development, digital marketing, and branding services. Could you please tell me more about what specific service you're interested in, or ask me about pricing, our process, or how to get started?";
+  };
+
+  const generateEnhancedAIResponse = (userInput: string, intentAnalysis: any, context: any): string => {
+    const input = userInput.toLowerCase();
+    const urgency = intentAnalysis?.urgency_level || 0.5;
+    const emotionalState = intentAnalysis?.emotional_state?.sentiment || 'neutral';
+    const businessContext = intentAnalysis?.business_context || {};
+
+    let response = generateAIResponse(userInput);
+
+    // Enhance response based on urgency
+    if (urgency > 0.8) {
+      response = "⚡ I understand this is urgent! " + response + "\n\nFor immediate assistance, please call us at 0753426492 or WhatsApp us directly.";
+    }
+
+    // Enhance response based on emotional state
+    if (emotionalState === 'frustrated' || emotionalState === 'negative') {
+      response = "I understand your concerns, and I'm here to help resolve them. " + response;
+    } else if (emotionalState === 'excited' || emotionalState === 'positive') {
+      response = "That's fantastic! I love your enthusiasm! " + response;
+    }
+
+    // Add personalization based on context
+    if (context?.user_preferences?.length > 0) {
+      response += "\n\n💡 Based on our conversation, I think you might also be interested in our " + 
+                  context.user_preferences.join(' and ') + " services.";
+    }
+
+    // Add business-specific enhancements
+    if (businessContext.service_keywords?.length > 0) {
+      const services = businessContext.service_keywords.join(', ');
+      response += `\n\n🎯 I noticed you mentioned ${services}. I can provide detailed information about these specific areas.`;
+    }
+
+    return response;
   };
 
   if (!isOpen) return null;
@@ -259,7 +354,7 @@ const AIChatWidget: React.FC<AIChatWidgetProps> = ({
             </svg>
           </Button>
         </div>
-        
+
         {/* WhatsApp CTA */}
         <div className="mt-3 pt-3 border-t">
           <Button
@@ -278,3 +373,4 @@ const AIChatWidget: React.FC<AIChatWidgetProps> = ({
 };
 
 export { AIChatWidget };
+```

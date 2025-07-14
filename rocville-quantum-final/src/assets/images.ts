@@ -1,6 +1,6 @@
 
 // High-quality stock images for RocVille Media House
-export const images = {
+export export const images = {
   hero: {
     background: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&h=1080&fit=crop&auto=format&q=80",
     overlay: "https://images.unsplash.com/photo-1604964432806-254d07c11f32?w=800&h=600&fit=crop&auto=format&q=80"
