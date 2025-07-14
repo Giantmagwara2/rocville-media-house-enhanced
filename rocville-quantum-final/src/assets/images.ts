@@ -1,5 +1,5 @@
 // Image assets for RocVille Media House
-export const images = {
+const images = {
   // Hero images
   hero: {
     main: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=800&fit=crop&auto=format",

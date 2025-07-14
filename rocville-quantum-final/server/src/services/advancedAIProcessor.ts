@@ -64,7 +64,7 @@ interface CallScript {
   next_steps: string[];
 }
 
-export class AdvancedAIProcessor {
+class AdvancedAIProcessor {
   private openai: OpenAI;
   private emailTransporter: nodemailer.Transporter;
   private voiceClient: any;
