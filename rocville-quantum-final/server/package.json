@@ -1,10 +1,9 @@
-
 {
   "name": "rocville-backend",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --exec tsx src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "jest"

@@ -1,12 +1,20 @@
-
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import compression from 'compression';
+import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
+import { connectDB } from './config/database';
+import { logger } from './utils/logger';
+import { errorHandler } from './middleware/errorHandler';
+
+// Import routes
+import portfolioRoutes from './routes/portfolio';
+import contactRoutes from './routes/contact';
+import authRoutes from './routes/auth';
+import servicesRoutes from './routes/services';
+import analyticsRoutes from './routes/analytics';
 import dotenv from 'dotenv';
 import { connectDatabase } from './config/database.js';
-import { logger } from './utils/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.js';
 import portfolioRoutes from './routes/portfolio.js';
