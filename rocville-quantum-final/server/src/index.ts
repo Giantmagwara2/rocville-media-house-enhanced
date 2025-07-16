@@ -1,3 +1,5 @@
+import aiConciergeRouter from './routes/aiConcierge';
+app.use('/api/ai-concierge', aiConciergeRouter);
 import express from 'express';
 import cors from 'cors';
 import compression from 'compression';

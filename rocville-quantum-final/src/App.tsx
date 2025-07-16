@@ -1,3 +1,5 @@
+import PortfolioVisualization from './components/PortfolioVisualization';
+import AIConciergeChat from './components/AIConciergeChat';
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Navbar } from './components/ui/navbar'
@@ -46,6 +48,14 @@ function App() {
             onToggle={toggleAIChat} 
             phoneNumber="254753426492"
           />
+        <AIConciergeChat />
+        {/* Example portfolio visualization */}
+        <PortfolioVisualization portfolio={{ assets: [
+          { sector: 'Renewable Energy', weight: 0.4, risk: 0.08, esgScore: 90 },
+          { sector: 'Tech', weight: 0.3, risk: 0.15, esgScore: 70 },
+          { sector: 'Healthcare', weight: 0.2, risk: 0.12, esgScore: 80 },
+          { sector: 'Utilities', weight: 0.1, risk: 0.09, esgScore: 60 },
+        ] }} />
         </div>
       </Router>
     </ErrorBoundary>

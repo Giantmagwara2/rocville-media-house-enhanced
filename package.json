@@ -3,8 +3,10 @@
     "tsx": "^4.20.3"
   },
   "dependencies": {
+    "@types/axios": "^0.9.36",
     "@types/mongoose": "^5.11.96",
     "@types/nodemailer": "^6.4.17",
+    "axios": "^1.10.0",
     "compression": "^1.8.0",
     "helmet": "^8.1.0",
     "mongoose": "^8.16.3",
