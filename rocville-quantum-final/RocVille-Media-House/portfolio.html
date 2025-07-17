@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Explore RocVille Media House's portfolio across 10 creative divisions including Music, Design, Events, and Digital Marketing.">
+  <meta property="og:title" content="Portfolio - RocVille Media House">
+  <meta property="og:description" content="Case studies showcasing innovative solutions across multiple creative industries.">
+  <meta property="og:image" content="https://rmh.netlify.app/images/portfolio-og.webp">
+  <title>Portfolio - RocVille Media House</title>
+  
+  <!-- Preload Critical Resources [[5]] -->
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="images/logo.webp" as="image">
+  
+  <!-- CSS with Version Query [[1]][[4]] -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- AOS Library for Animations [[6]] -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip Link for Accessibility [[1]] -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header with Mobile Menu [[3]] -->
+  <header>
+    <div class="container">
+      <picture>
+        <source srcset="images/logo.webp" type="image/webp">
+        <img 
+          src="images/logo.png" 
+          alt="RocVille Media House Logo" 
+          class="logo"
+          width="150" 
+          height="50"
+          loading="lazy"
+        >
+      </picture>
+      <nav aria-label="Main Navigation" class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html" aria-current="page">Work</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Gradient Overlay [[6]][[8]] -->
+  <section class="hero-portfolio" id="main-content">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>Our Creative Work</h1>
+      <div class="text-slider" aria-hidden="true">
+        <span class="slider-item">Digital Innovation</span>
+        <span class="slider-item">Brand Experiences</span>
+        <span class="slider-item">Visual Storytelling</span>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+  </section>
+
+  <!-- Portfolio Grid with Filter Controls [[7]] -->
+  <section class="portfolio-grid">
+    <div class="container">
+      <h2 class="sr-only">Featured Projects</h2>
+      
+      <!-- Filter Controls -->
+      <div class="filter-controls" role="tablist" aria-label="Project categories">
+        <button class="filter-btn active" data-filter="*" role="tab" aria-selected="true">All</button>
+        <button class="filter-btn" data-filter=".music" role="tab">Music</button>
+        <button class="filter-btn" data-filter=".design" role="tab">Design</button>
+        <button class="filter-btn" data-filter=".events" role="tab">Events</button>
+        <button class="filter-btn" data-filter=".art" role="tab">Art</button>
+        <button class="filter-btn" data-filter=".advertising" role="tab">Advertising</button>
+        <button class="filter-btn" data-filter=".fashion" role="tab">Fashion</button>
+        <button class="filter-btn" data-filter=".management" role="tab">Management</button>
+        <button class="filter-btn" data-filter=".publishing" role="tab">Publishing</button>
+        <button class="filter-btn" data-filter=".travel" role="tab">Travel</button>
+        <button class="filter-btn" data-filter=".pictures" role="tab">Pictures</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="projects-container">
+        <!-- Music Project -->
+        <article class="project-card music" data-aos="zoom-in" data-color="#ff6b6b">
+          <figure>
+            <picture>
+              <source srcset="images/music-project.webp" type="image/webp">
+              <img 
+                src="images/music-project.jpg" 
+                alt="Music branding project for indie artist" 
+                loading="lazy" 
+                width="800" 
+                height="600"
+              >
+            </picture>
+            <figcaption>
+              <h3>Music Branding</h3>
+              <p>Album artwork & digital campaign strategy</p>
+              <a href="project1.html" class="btn" aria-label="View music branding case study">Case Study</a>
+            </figcaption>
+          </figure>
+        </article>
+
+        <!-- Design Project -->
+        <article class="project-card design" data-aos="zoom-in" data-color="#4a00e0" data-aos-delay="200">
+          <figure>
+            <picture>
+              <source srcset="images/design-project.webp" type="image/webp">
+              <img 
+                src="images/design-project.jpg" 
+                alt="Brand identity redesign project" 
+                loading="lazy" 
+                width="800" 
+                height="600"
+              >
+            </picture>
+            <figcaption>
+              <h3>Brand Identity</h3>
+              <p>Complete rebranding for fashion startup</p>
+              <a href="project2.html" class="btn" aria-label="View design case study">Case Study</a>
+            </figcaption>
+          </figure>
+        </article>
+
+        <!-- Add other projects here... -->
+
+        <!-- Placeholder for Additional Projects -->
+        <article class="project-card placeholder" data-aos="zoom-in" data-color="#cccccc">
+          <figure>
+            <picture>
+              <img 
+                src="images/placeholder.jpg" 
+                alt="Placeholder image for upcoming project" 
+                loading="lazy" 
+                width="800" 
+                height="600"
+              >
+            </picture>
+            <figcaption>
+              <h3>Coming Soon</h3>
+              <p>Details to be announced</p>
+              <button class="btn disabled" aria-disabled="true">Case Study</button>
+            </figcaption>
+          </figure>
+        </article>
+      </div>
+
+      <!-- Loading Indicator -->
+      <div class="loading-indicator" aria-live="polite" aria-atomic="true">Loading more projects...</div>
+    </div>
+  </section>
+
+  <!-- Footer with Enhanced Branding [[6]] -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-branding">
+        <picture>
+          <source srcset="images/logo-alt.webp" type="image/webp">
+          <img 
+            src="images/logo-alt.png" 
+            alt="RocVille Media House" 
+            loading="lazy"
+          >
+        </picture>
+        <p>&copy; 2025 RocVille Media House. All rights reserved.</p>
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p><a href="tel:+27726591594">072 659 1594</a></p>
+        <p><a href="mailto:work@rocville.com">work@rocville.com</a></p>
+      </div>
+
+      <div class="newsletter">
+        <h3>Industry Insights</h3>
+        <form id="portfolio-newsletter">
+          <label for="newsletter-email" class="sr-only">Email address</label>
+          <input 
+            type="email" 
+            id="newsletter-email" 
+            placeholder="Email address" 
+            required 
+            aria-label="Subscribe to newsletter"
+          >
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="social-links">
+        <a href="#" aria-label="Instagram"><img src="images/icon-instagram.svg" alt="Instagram"></a>
+        <a href="#" aria-label="LinkedIn"><img src="images/icon-linkedin.svg" alt="LinkedIn"></a>
+        <a href="#" aria-label="Twitter"><img src="images/icon-twitter.svg" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back-to-Top Button [[9]] -->
+  <button class="back-to-top" aria-label="Return to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15l5-5 5 5"/></svg>
+  </button>
+
+  <!-- Modern JavaScript Enhancements -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js" type="module" defer></script>
+</body>
+</html>

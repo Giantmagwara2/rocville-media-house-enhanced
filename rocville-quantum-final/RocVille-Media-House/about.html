@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Learn about RocVille Media House's mission, values, and team across 10 media divisions.">
+  <meta property="og:title" content="About Us - RocVille Media House">
+  <meta property="og:description" content="Empowering brands through music, design, events, and innovation.">
+  <meta property="og:image" content="https://rmh.netlify.app/images/logo.webp">
+  <title>About Us - RocVille Media House</title>
+
+  <!-- CSS with Version Query [[1]][[4]] -->
+  <link rel="stylesheet" css/styles.css">
+
+  <!-- Preload Critical Resources [[5]] -->
+  <link rel="preload" href="images/logo.webp" as="image">
+  <link rel="preload" href="fonts/custom-font.woff2" as="font" crossorigin>
+
+  <!-- AOS Library for Animations [[6]] -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip Link for Accessibility [[1]] -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Header with Mobile Menu [[3]] -->
+  <header>
+    <div class="container">
+      <picture>
+        <source srcset="images/logo.webp" type="image/webp">
+        <img 
+          src="images/logo.png" 
+          alt="RocVille Media House Logo" 
+          class="logo"
+          width="150" 
+          height="50"
+          loading="lazy"
+        >
+      </picture>
+      <nav aria-label="Primary Navigation" class="nav-menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" aria-current="page">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Division-Themed Slider [[6]][[7]] -->
+  <section class="hero-about" id="main-content">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>About Us</h1>
+      <div class="text-slider" aria-hidden="true">
+        <span class="slider-item">Music Branding</span>
+        <span class="slider-item">Event Experiences</span>
+        <span class="slider-item">Fashion Campaigns</span>
+        <span class="slider-item">Art Direction</span>
+      </div>
+    </div>
+    <div class="parallax-bg"></div>
+    <div class="social-icons" data-aos="fade-up">
+      <a href="#" aria-label="Instagram"><img src="images/icon-instagram.svg" alt="Instagram" width="24" height="24"></a>
+      <a href="#" aria-label="LinkedIn"><img src="images/icon-linkedin.svg" alt="LinkedIn" width="24" height="24"></a>
+      <a href="#" aria-label="Twitter"><img src="images/icon-twitter.svg" alt="Twitter" width="24" height="24"></a>
+    </div>
+  </section>
+
+  <!-- Mission & Values Section [[2]][[4]] -->
+  <section class="mission-values">
+    <div class="container">
+      <div class="mission" data-aos="fade-right">
+        <h2>Our Mission</h2>
+        <p>To empower brands through 10 media divisions driving innovation and visibility.</p>
+      </div>
+      <div class="values" data-aos="fade-left">
+        <h2>Our Values</h2>
+        <div class="values-grid">
+          <!-- Integrity -->
+          <div class="value-item" data-aos="flip-up">
+            <img src="images/icon-integrity.webp" alt="Integrity" width="40" height="40" loading="lazy">
+            <h3>Integrity</h3>
+            <p>Honesty in every interaction.</p>
+          </div>
+          <!-- Innovation -->
+          <div class="value-item" data-aos="flip-up" data-aos-delay="100">
+            <img src="images/icon-innovation.webp" alt="Innovation" width="40" height="40" loading="lazy">
+            <h3>Innovation</h3>
+            <p>Pioneering creative solutions for tomorrow’s challenges.</p>
+          </div>
+          <!-- Client Focus -->
+          <div class="value-item" data-aos="flip-up" data-aos-delay="200">
+            <img src="images/icon-client.webp" alt="Client Focus" width="40" height="40" loading="lazy">
+            <h3>Client Focus</h3>
+            <p>Your success is our priority.</p>
+          </div>
+          <!-- Excellence -->
+          <div class="value-item" data-aos="flip-up" data-aos-delay="300">
+            <img src="images/icon-excellence.webp" alt="Excellence" width="40" height="40" loading="lazy">
+            <h3>Excellence</h3>
+            <p>Delivering unmatched quality in every project.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section with Division Alignment [[6]] -->
+  <section class="team">
+    <div class="container">
+      <h2 data-aos="fade-up">Our Team</h2>
+      <div class="team-grid">
+        <!-- Music Division Lead -->
+        <div class="team-member" data-aos="zoom-in" data-color="#ff6b6b" data-aos-delay="200">
+          <picture>
+            <source srcset="images/team_member_1.webp" type="image/webp">
+            <img 
+              src="images/team_member_1.jpg" 
+              alt="Alex Johnson - Music Division Lead" 
+              width="150" 
+              height="150"
+              loading="lazy"
+            >
+          </picture>
+          <div class="overlay">
+            <h3>Alex Johnson</h3>
+            <p>Music Division Lead</p>
+            <p>Expertise in artist branding and digital campaigns.</p>
+            <div class="social-icons">
+              <a href="#" aria-label="Spotify"><img src="images/icon-spotify.svg" alt="Spotify" width="24" height="24"></a>
+              <a href="#" aria-label="LinkedIn"><img src="images/icon-linkedin.svg" alt="LinkedIn" width="24" height="24"></a>
+            </div>
+          </div>
+        </div>
+        <!-- Design Division Director -->
+        <div class="team-member" data-aos="zoom-in" data-color="#4a00e0" data-aos-delay="400">
+          <picture>
+            <source srcset="images/team_member_2.webp" type="image/webp">
+            <img 
+              src="images/team_member_2.jpg" 
+              alt="Jamie Lee - Design Director" 
+              width="150" 
+              height="150"
+              loading="lazy"
+            >
+          </picture>
+          <div class="overlay">
+            <h3>Jamie Lee</h3>
+            <p>Design Director</p>
+            <p>Specializes in cross-division brand cohesion.</p>
+            <div class="social-icons">
+              <a href="#" aria-label="Behance"><img src="images/icon-behance.svg" alt="Behance" width="24" height="24"></a>
+              <a href="#" aria-label="Twitter"><img src="images/icon-twitter.svg" alt="Twitter" width="24" height="24"></a>
+            </div>
+          </div>
+        </div>
+        <!-- Add 8 more team members (repeat structure) -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Newsletter & Dark Mode Support [[6]] -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 RocVille Media House. All rights reserved.</p>
+      <p>Call / WhatsApp: <a href="tel:+27726591594">072 659 1594</a></p>
+      <p>Visit: <a href="https://rmh.netlify.app">rmh.netlify.app</a></p>
+      <div class="newsletter" data-aos="fade-up">
+        <h3>Join Our Creative Network</h3>
+        <form>
+          <input type="email" placeholder="Your Email" required aria-label="Subscribe to newsletter">
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+      </div>
+      <div class="social-icons">
+        <a href="#" aria-label="Instagram"><img src="images/icon-instagram.svg" alt="Instagram" width="24" height="24"></a>
+        <a href="#" aria-label="LinkedIn"><img src="images/icon-linkedin.svg" alt="LinkedIn" width="24" height="24"></a>
+        <a href="#" aria-label="Twitter"><img src="images/icon-twitter.svg" alt="Twitter" width="24" height="24"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modern JavaScript Enhancements -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/script.js" defer></script>
+</body>
+</html>
