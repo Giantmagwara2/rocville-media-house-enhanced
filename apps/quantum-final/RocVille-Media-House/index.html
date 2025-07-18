@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="RocVille Media House - 10 divisions driving innovation in web design, SEO, branding, and media solutions.">
+  <meta property="og:title" content="RocVille Media House">
+  <meta property="og:description" content="Your partner in digital success across music, design, events, and more.">
+  <meta property="og:image" content="https://rmh.netlify.app/images/logo.webp">
+  <title>RocVille Media House</title>
+  
+  <!-- Preload Critical Resources [[5]] -->
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="images/logo.webp" as="image">
+  <link rel="preload" href="fonts/custom-font.woff2" as="font" crossorigin>
+  
+  <!-- CSS with Version Query [[1]][[4]] -->
+  <link rel="stylesheet" css/styles.css">
+  <!-- AOS Library for Animations [[6]] -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Skip Link for Accessibility [[1]] -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- Header with Dynamic Gradient [[3]] -->
+  <header>
+    <div class="container">
+      <picture>
+        <source srcset="images/logo.webp" type="image/webp">
+        <img 
+          src="images/logo.png" 
+          alt="RocVille Media House Logo" 
+          class="logo"
+          width="150" 
+          height="50"
+          loading="lazy"
+        >
+      </picture>
+      <nav aria-label="Primary Navigation" class="nav-menu">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="portfolio.html">Work</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Video & Gradient Overlay [[6]][[8]] -->
+  <section class="hero" id="main-content">
+    <div class="hero-content" data-aos="fade-up">
+      <h1>We Create. We Innovate.</h1>
+      <div class="text-slider" aria-hidden="true">
+        <span class="slider-item">Music Branding</span>
+        <span class="slider-item">Event Experiences</span>
+        <span class="slider-item">Fashion Campaigns</span>
+        <span class="slider-item">Art Direction</span>
+      </div>
+      <a href="contact.html" class="btn" aria-label="Start your project with us">Start Your Project</a>
+    </div>
+    <video class="hero-video" autoplay loop muted playsinline poster="images/hero-poster.webp">
+      <source src="videos/hero-bg.webm" type="video/webm">
+      <source src="videos/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div class="hero-bg"></div>
+  </section>
+
+  <!-- 10 Divisions Showcase [[2]][[7]] -->
+  <section class="divisions">
+    <div class="container">
+      <h2 data-aos="fade-up">Our 10 Divisions</h2>
+      <div class="division-grid">
+        <!-- Music Division -->
+        <div class="division-item music" data-aos="zoom-in" data-color="#00F0FF">
+          <picture>
+            <source srcset="images/music-icon.webp" type="image/webp">
+            <img src="images/music-icon.png" alt="Music Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Music</h3>
+          <p>Production, promotion, and artist management</p>
+        </div>
+        <!-- Design Division -->
+        <div class="division-item design" data-aos="zoom-in" data-color="#4A00E0" data-aos-delay="200">
+          <picture>
+            <source srcset="images/design-icon.webp" type="image/webp">
+            <img src="images/design-icon.png" alt="Design Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Design</h3>
+          <p>Branding, web, and graphic design solutions</p>
+        </div>
+        <!-- Events Division -->
+        <div class="division-item events" data-aos="zoom-in" data-color="#FF6B6B" data-aos-delay="400">
+          <picture>
+            <source srcset="images/events-icon.webp" type="image/webp">
+            <img src="images/events-icon.png" alt="Events Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Events</h3>
+          <p>Event planning and experiential marketing</p>
+        </div>
+        <!-- Art Division -->
+        <div class="division-item art" data-aos="zoom-in" data-color="#FF00FF" data-aos-delay="600">
+          <picture>
+            <source srcset="images/art-icon.webp" type="image/webp">
+            <img src="images/art-icon.png" alt="Art Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Art</h3>
+          <p>Visual storytelling and creative direction</p>
+        </div>
+        <!-- Advertising Division -->
+        <div class="division-item advertising" data-aos="zoom-in" data-color="#00FF88" data-aos-delay="800">
+          <picture>
+            <source srcset="images/advertising-icon.webp" type="image/webp">
+            <img src="images/advertising-icon.png" alt="Advertising Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Advertising</h3>
+          <p>Data-driven campaigns for brand growth</p>
+        </div>
+        <!-- Fashion Division -->
+        <div class="division-item fashion" data-aos="zoom-in" data-color="#7D2AE8" data-aos-delay="1000">
+          <picture>
+            <source srcset="images/fashion-icon.webp" type="image/webp">
+            <img src="images/fashion-icon.png" alt="Fashion Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Fashion</h3>
+          <p>Trend-focused branding and lookbook design</p>
+        </div>
+        <!-- Management Division -->
+        <div class="division-item management" data-aos="zoom-in" data-color="#00C1CC" data-aos-delay="1200">
+          <picture>
+            <source srcset="images/management-icon.webp" type="image/webp">
+            <img src="images/management-icon.png" alt="Management Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Management</h3>
+          <p>Artist and creative project management</p>
+        </div>
+        <!-- Publishing Division -->
+        <div class="division-item publishing" data-aos="zoom-in" data-color="#FF4F4F" data-aos-delay="1400">
+          <picture>
+            <source srcset="images/publishing-icon.webp" type="image/webp">
+            <img src="images/publishing-icon.png" alt="Publishing Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Publishing</h3>
+          <p>Digital and print content distribution</p>
+        </div>
+        <!-- Travel Division -->
+        <div class="division-item travel" data-aos="zoom-in" data-color="#00FF00" data-aos-delay="1600">
+          <picture>
+            <source srcset="images/travel-icon.webp" type="image/webp">
+            <img src="images/travel-icon.png" alt="Travel Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Travel</h3>
+          <p>Destination branding and experiential campaigns</p>
+        </div>
+        <!-- Pictures Division -->
+        <div class="division-item pictures" data-aos="zoom-in" data-color="#FFFF00" data-aos-delay="1800">
+          <picture>
+            <source srcset="images/pictures-icon.webp" type="image/webp">
+            <img src="images/pictures-icon.png" alt="Pictures Division" width="60" height="60" loading="lazy">
+          </picture>
+          <h3>Pictures</h3>
+          <p>Photography and visual content creation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Services Section [[5]] -->
+  <section class="core-services">
+    <div class="container">
+      <h2 data-aos="fade-up">Core Solutions</h2>
+      <div class="service-grid">
+        <!-- Web Design -->
+        <article class="service-card" data-aos="flip-left">
+          <picture>
+            <source srcset="images/web-design.webp" type="image/webp">
+            <img src="images/web-design.jpg" alt="Web Design" loading="lazy">
+          </picture>
+          <div class="card-content">
+            <h3>Web Design</h3>
+            <p>Stunning, responsive websites tailored to your brand</p>
+            <a href="services.html#web" class="btn">Explore</a>
+          </div>
+        </article>
+        <!-- SEO -->
+        <article class="service-card" data-aos="flip-right" data-aos-delay="200">
+          <picture>
+            <source srcset="images/seo.webp" type="image/webp">
+            <img src="images/seo.jpg" alt="SEO" loading="lazy">
+          </picture>
+          <div class="card-content">
+            <h3>SEO</h3>
+            <p>Boost organic traffic with cutting-edge optimization</p>
+            <a href="services.html#seo" class="btn">Explore</a>
+          </div>
+        </article>
+        <!-- Logo Design -->
+        <article class="service-card" data-aos="flip-left" data-aos-delay="400">
+          <picture>
+            <source srcset="images/logo-design.webp" type="image/webp">
+            <img src="images/logo-design.jpg" alt="Logo Design" loading="lazy">
+          </picture>
+          <div class="card-content">
+            <h3>Logo Design</h3>
+            <p>Crafting memorable brand identities</p>
+            <a href="services.html#logo" class="btn">Explore</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Enhanced Branding [[6]] -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-branding">
+        <picture>
+          <source srcset="images/logo-alt.webp" type="image/webp">
+          <img src="images/logo-alt.png" alt="RocVille Media House" loading="lazy">
+        </picture>
+        <p>&copy; 2025 RocVille Media House. All rights reserved.</p>
+      </div>
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p><a href="tel:+27726591594">072 659 1594</a></p>
+        <p><a href="https://rmh.netlify.app">rmh.netlify.app</a></p>
+      </div>
+      <div class="newsletter" data-aos="fade-up">
+        <h3>Industry Insights</h3>
+        <form>
+          <input type="email" placeholder="Email address" required aria-label="Subscribe to newsletter">
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+      </div>
+      <div class="social-icons">
+        <a href="#" aria-label="Instagram"><img src="images/icon-instagram.svg" alt="Instagram"></a>
+        <a href="#" aria-label="LinkedIn"><img src="images/icon-linkedin.svg" alt="LinkedIn"></a>
+        <a href="#" aria-label="Twitter"><img src="images/icon-twitter.svg" alt="Twitter"></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modern JavaScript Enhancements -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js" type="module" defer></script>
+</body>
+</html>
