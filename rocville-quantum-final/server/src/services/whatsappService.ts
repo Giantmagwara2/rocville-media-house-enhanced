@@ -9,6 +9,11 @@ export class WhatsAppService {
   private phoneNumberId: string;
   private apiUrl: string;
   private aiProcessor: AIProcessor;
+  private failover: ((providers: Array<() => Promise<any>>) => Promise<any>) | null;
+  private getCache: ((key: string) => Promise<any>) | null;
+  private setCache: ((key: string, value: any, ttl?: number) => Promise<void>) | null;
+  private logMetric: ((name: string, value: string | number, tags?: Record<string, string>) => void) | null;
+  private logError: ((error: Error, context?: any) => void) | null;
 
   constructor(accessToken?: string, verifyToken?: string, phoneNumberId?: string) {
     this.accessToken = accessToken || process.env.WHATSAPP_ACCESS_TOKEN || '';
@@ -16,6 +21,22 @@ export class WhatsAppService {
     this.phoneNumberId = phoneNumberId || process.env.WHATSAPP_PHONE_NUMBER_ID || '';
     this.apiUrl = `https://graph.facebook.com/v18.0/${this.phoneNumberId}/messages`;
     this.aiProcessor = new AIProcessor();
+    // Reliability utilities
+    this.failover = null;
+    this.getCache = null;
+    this.setCache = null;
+    this.logMetric = null;
+    this.logError = null;
+    (async () => {
+      const failoverMod = await import('../utils/failoverProvider');
+      const cacheMod = await import('../utils/cacheService');
+      const obsMod = await import('../utils/observability');
+      this.failover = failoverMod.failover;
+      this.getCache = cacheMod.getCache;
+      this.setCache = cacheMod.setCache;
+      this.logMetric = obsMod.logMetric;
+      this.logError = obsMod.logError;
+    })();
   }
 
   verifyWebhook(mode: string, token: string, challenge: string): string | null {
@@ -58,6 +79,7 @@ export class WhatsAppService {
         }
       }
 
+      if (this.logMetric) this.logMetric('whatsapp_webhook_success', 1, {});
       return {
         status: "success",
         processed: true,
@@ -65,6 +87,7 @@ export class WhatsAppService {
       };
 
     } catch (error) {
+      if (this.logError) this.logError(error as Error, {});
       logger.error('WhatsApp webhook processing error:', error);
       return {
         status: "error",

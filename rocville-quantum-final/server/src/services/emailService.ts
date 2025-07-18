@@ -11,7 +11,7 @@ interface EmailData {
 
 // Create reusable transporter object using SMTP transport
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: false, // true for 465, false for other ports
@@ -57,9 +57,11 @@ const templates = {
 };
 
 export const sendEmail = async ({ to, subject, template, data }: EmailData): Promise<void> => {
+  const { logMetric, logError } = await import('../utils/observability');
   try {
     // Skip email sending in development if no SMTP credentials
     if (process.env.NODE_ENV !== 'production' && !process.env.SMTP_USER) {
+      logMetric('email_dev_send', 1, { to, subject, template });
       logger.info(`Email would be sent to ${to} with subject: ${subject}`);
       logger.info(`Template: ${template}`, data);
       return;
@@ -69,6 +71,7 @@ export const sendEmail = async ({ to, subject, template, data }: EmailData): Pro
     const emailTemplate = templates[template as keyof typeof templates];
     
     if (!emailTemplate) {
+      logError(new Error(`Email template '${template}' not found`), { to, subject, template });
       throw new Error(`Email template '${template}' not found`);
     }
 
@@ -83,8 +86,10 @@ export const sendEmail = async ({ to, subject, template, data }: EmailData): Pro
     };
 
     const info = await transporter.sendMail(mailOptions);
+    logMetric('email_sent', 1, { to, subject, template });
     logger.info(`Email sent successfully: ${info.messageId}`);
   } catch (error) {
+    logError(error as Error, { to, subject, template });
     logger.error('Failed to send email:', error);
     throw error;
   }

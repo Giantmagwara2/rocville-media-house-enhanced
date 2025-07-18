@@ -1,4 +1,12 @@
 import { Layout } from "../components/layout";
+import ComplianceStatusWidget from "../components/ComplianceStatusWidget";
+import MarketDataWidget from "../components/MarketDataWidget";
+import ESGScoreWidget from "../components/ESGScoreWidget";
+import DiversificationWidget from "../components/DiversificationWidget";
+import SocialShareWidget from "../components/SocialShareWidget";
+import Layer2TxWidget from "../components/Layer2TxWidget";
+import DIDWidget from "../components/DIDWidget";
+import MultiChainBalanceWidget from "../components/MultiChainBalanceWidget";
 import { Hero } from "../components/ui/hero";
 import { Section } from "../components/ui/section";
 import { H2, H3, Lead, P } from "../components/ui/typography";
@@ -32,12 +40,21 @@ export default function PortfolioPage() {
 
   return (
     <Layout>
+      <div className="max-w-xl mx-auto mt-8 mb-8 space-y-6">
+        <ComplianceStatusWidget />
+        <MarketDataWidget />
+        <ESGScoreWidget />
+        <DiversificationWidget />
+        <SocialShareWidget />
+        <Layer2TxWidget />
+        <DIDWidget />
+        <MultiChainBalanceWidget />
+      </div>
       {/* Hero Section */}
       <Hero
         title="Our Portfolio"
         subtitle="Explore our latest projects and see how we've helped our clients achieve their digital goals"
         backgroundImage="/assets/portfolio-hero.jpg"
-        size="md"
       />
 
       {/* Filter Section */}

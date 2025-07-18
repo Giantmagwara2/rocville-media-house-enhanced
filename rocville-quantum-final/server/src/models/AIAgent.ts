@@ -25,6 +25,11 @@ const ConversationSchema = new Schema<IConversation>({
   processed: { type: Boolean, default: false },
   timestamp: { type: Date, default: Date.now }
 });
+// Indexes for query optimization
+ConversationSchema.index({ phone_number: 1 });
+ConversationSchema.index({ message_type: 1 });
+ConversationSchema.index({ processed: 1 });
+ConversationSchema.index({ timestamp: -1 });
 
 // User Profile Schema
 interface IUserProfile extends Document {
@@ -58,6 +63,9 @@ const UserProfileSchema = new Schema<IUserProfile>({
   lead_score: { type: Number, default: 0 },
   last_interaction: { type: Date, default: Date.now }
 });
+// Indexes for query optimization
+UserProfileSchema.index({ phone_number: 1 });
+UserProfileSchema.index({ lead_score: -1 });
 
 // Lead Schema
 interface ILead extends Document {
@@ -85,6 +93,10 @@ const LeadSchema = new Schema<ILead>({
   notes: { type: String },
   created_at: { type: Date, default: Date.now }
 });
+// Indexes for query optimization
+LeadSchema.index({ phone_number: 1 });
+LeadSchema.index({ status: 1 });
+LeadSchema.index({ created_at: -1 });
 
 // Analytics Schema
 interface IAnalytics extends Document {
@@ -102,6 +114,10 @@ const AnalyticsSchema = new Schema<IAnalytics>({
   dimensions: { type: String },
   timestamp: { type: Date, default: Date.now }
 });
+// Indexes for query optimization
+AnalyticsSchema.index({ metric_type: 1 });
+AnalyticsSchema.index({ metric_name: 1 });
+AnalyticsSchema.index({ timestamp: -1 });
 
 export const Conversation = model<IConversation>('Conversation', ConversationSchema);
 export const UserProfile = model<IUserProfile>('UserProfile', UserProfileSchema);

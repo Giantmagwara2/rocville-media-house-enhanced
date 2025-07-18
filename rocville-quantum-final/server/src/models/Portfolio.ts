@@ -45,8 +45,9 @@ const portfolioSchema = new Schema<IPortfolio>({
   timestamps: true
 });
 
-portfolioSchema.index({ category: 1, status: 1 });
-portfolioSchema.index({ featured: 1, status: 1 });
+portfolioSchema.index({ category: 1 });
+portfolioSchema.index({ status: 1 });
+portfolioSchema.index({ featured: 1 });
 portfolioSchema.index({ createdAt: -1 });
 
 export const Portfolio = mongoose.model<IPortfolio>('Portfolio', portfolioSchema);

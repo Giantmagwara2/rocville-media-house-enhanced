@@ -17,11 +17,11 @@ type Props = {
 
 const COLORS = ['#4ade80', '#60a5fa', '#fbbf24', '#f472b6', '#a78bfa', '#f87171'];
 
-const PortfolioVisualization: React.FC<Props> = ({ portfolio }) => {
+const PortfolioVisualization: React.FC<Props> = ({ portfolio }: Props) => {
   const total = portfolio.assets.reduce((sum: number, a: Asset) => sum + a.weight, 0);
   let startAngle = 0;
 
-  const getCoordinates = (angle: number, radius: number) => {
+  const getCoordinates = (angle: number, radius: number): { x: number; y: number } => {
     const rad = (angle - 90) * (Math.PI / 180);
     return {
       x: 100 + radius * Math.cos(rad),
@@ -68,4 +68,6 @@ const PortfolioVisualization: React.FC<Props> = ({ portfolio }) => {
       </ul>
     </div>
   );
-}
+};
+
+export default PortfolioVisualization;

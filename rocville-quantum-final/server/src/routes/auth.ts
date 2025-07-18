@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { body } from 'express-validator';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { validateRequest } from '../middleware/validation.js';
+import { generateOTP, verifyOTP, clearOTP } from '../utils/otpService.js';
 
 const router = express.Router();
 
@@ -18,31 +19,52 @@ const mockUsers = [
   }
 ];
 
+// MFA Step 1: Password check, send OTP
 router.post('/login',
   [
     body('email').isEmail().normalizeEmail(),
     body('password').isLength({ min: 6 })
   ],
   validateRequest,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: express.Request, res: express.Response) => {
     const { email, password } = req.body;
-    
     const user = mockUsers.find(u => u.email === email);
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
+    // Generate and send OTP (simulate sending via email/SMS)
+    const otp = generateOTP(email);
+    // In production, send OTP via email/SMS here
+    res.json({ mfaRequired: true, message: 'OTP sent to your email', otp }); // For demo, return OTP
+  })
+);
+
+// MFA Step 2: Verify OTP and issue JWT
+router.post('/login/verify-otp',
+  [
+    body('email').isEmail().normalizeEmail(),
+    body('otp').isLength({ min: 6, max: 6 })
+  ],
+  validateRequest,
+  asyncHandler(async (req: express.Request, res: express.Response) => {
+    const { email, otp } = req.body;
+    const user = mockUsers.find(u => u.email === email);
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    if (!verifyOTP(email, otp)) {
+      return res.status(401).json({ message: 'Invalid or expired OTP' });
+    }
+    clearOTP(email);
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'fallback-secret',
       { expiresIn: '24h' }
     );
-    
     res.json({
       token,
       user: {
@@ -61,7 +83,7 @@ router.post('/register',
     body('name').trim().isLength({ min: 2 })
   ],
   validateRequest,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: express.Request, res: express.Response) => {
     const { email, password, name } = req.body;
     
     // Check if user exists

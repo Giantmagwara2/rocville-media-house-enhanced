@@ -43,7 +43,9 @@ const contactSchema = new Schema<IContact>({
   timestamps: true
 });
 
-contactSchema.index({ status: 1, priority: 1 });
+contactSchema.index({ status: 1 });
+contactSchema.index({ priority: 1 });
+contactSchema.index({ source: 1 });
 contactSchema.index({ email: 1 });
 contactSchema.index({ createdAt: -1 });
 

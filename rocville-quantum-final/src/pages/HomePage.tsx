@@ -1,4 +1,12 @@
 import { Layout } from "../components/layout";
+import ComplianceStatusWidget from "../components/ComplianceStatusWidget";
+import MarketDataWidget from "../components/MarketDataWidget";
+import ESGScoreWidget from "../components/ESGScoreWidget";
+import DiversificationWidget from "../components/DiversificationWidget";
+import SocialShareWidget from "../components/SocialShareWidget";
+import Layer2TxWidget from "../components/Layer2TxWidget";
+import DIDWidget from "../components/DIDWidget";
+import MultiChainBalanceWidget from "../components/MultiChainBalanceWidget";
 import { Hero } from "../components/ui/hero";
 import { Section } from "../components/ui/section";
 import { H2, Lead, P } from "../components/ui/typography";
@@ -17,12 +25,21 @@ export default function HomePage() {
 
   return (
     <Layout transparentHeader>
+      {/* Compliance Status Widget */}
+      <div className="max-w-xl mx-auto mt-8 mb-8 space-y-6">
+        <ComplianceStatusWidget />
+        <MarketDataWidget />
+        <ESGScoreWidget />
+        <DiversificationWidget />
+        <SocialShareWidget />
+        <Layer2TxWidget />
+        <DIDWidget />
+        <MultiChainBalanceWidget />
+      </div>
       {/* Hero Section */}
       <Hero
         title="Crafting Digital Experiences That Inspire"
         subtitle="We're a full-service digital agency specializing in web development, branding, and marketing solutions that drive results."
-        ctaText="Get Started"
-        secondaryCtaText="Our Services"
         backgroundImage="/assets/hero-bg.jpg"
       />
 
@@ -36,72 +53,15 @@ export default function HomePage() {
         </div>
 
         <div className="bento-grid">
-          {SERVICES.slice(0, 6).map((service, index) => (
+          {SERVICES.slice(0, 6).map((service) => (
             <ServiceCard
               key={service.id}
               title={service.title}
               description={service.shortDescription}
               features={service.features}
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  {service.icon === "Code" && (
-                    <>
-                      <polyline points="16 18 22 12 16 6"></polyline>
-                      <polyline points="8 6 2 12 8 18"></polyline>
-                    </>
-                  )}
-                  {service.icon === "BarChart" && (
-                    <>
-                      <line x1="12" y1="20" x2="12" y2="10"></line>
-                      <line x1="18" y1="20" x2="18" y2="4"></line>
-                      <line x1="6" y1="20" x2="6" y2="16"></line>
-                    </>
-                  )}
-                  {service.icon === "Palette" && (
-                    <>
-                      <circle cx="13.5" cy="6.5" r=".5"></circle>
-                      <circle cx="17.5" cy="10.5" r=".5"></circle>
-                      <circle cx="8.5" cy="7.5" r=".5"></circle>
-                      <circle cx="6.5" cy="12.5" r=".5"></circle>
-                      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path>
-                    </>
-                  )}
-                  {service.icon === "FileText" && (
-                    <>
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="16" y1="13" x2="8" y2="13"></line>
-                      <line x1="16" y1="17" x2="8" y2="17"></line>
-                      <polyline points="10 9 9 9 8 9"></polyline>
-                    </>
-                  )}
-                  {service.icon === "Layout" && (
-                    <>
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                      <line x1="3" y1="9" x2="21" y2="9"></line>
-                      <line x1="9" y1="21" x2="9" y2="9"></line>
-                    </>
-                  )}
-                  {service.icon === "Smartphone" && (
-                    <>
-                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                      <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                    </>
-                  )}
-                </svg>
-              }
-              ctaLink={`/services#${service.id}`}
-              variant={index === 0 ? "featured" : "default"}
+              image={"/assets/service-default.jpg"}
+              category={service.title}
+              gradient={"linear-gradient(135deg, #7F5AF0 0%, #2CB67D 100%)"}
             />
           ))}
         </div>

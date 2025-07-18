@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
+import { useToast } from '../hooks/use-toast';
 
 const AIConciergeChat: React.FC = () => {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([
     { sender: 'ai', text: 'Hello! I am your AI investment concierge. How can I help you today?' }
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState<string>('');
 
-  const handleSend = () => {
+  const [loading, setLoading] = useState(false);
+  const handleSend = async (): Promise<void> => {
     if (!input.trim()) return;
-    setMessages([...messages, { sender: 'user', text: input }]);
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages((msgs: { sender: string; text: string }[]) => [...msgs, { sender: 'ai', text: `You said: ${input}` }]);
-    }, 600);
-    setInput('');
+    const newMessages = [...messages, { sender: 'user', text: input }];
+    setMessages(newMessages);
+    setLoading(true);
+    const { toast } = useToast();
+    try {
+      const res = await fetch('/api/ai-concierge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages })
+      });
+      const data = await res.json();
+      setMessages((msgs: { sender: string; text: string }[]) => [...msgs, { sender: 'ai', text: data.response }]);
+      toast({ title: 'AI Concierge Response', description: 'Message sent to AI Concierge.' });
+    } catch {
+      setMessages((msgs: { sender: string; text: string }[]) => [...msgs, { sender: 'ai', text: 'Sorry, I could not process your request.' }]);
+      toast({ title: 'Error', description: 'Failed to get AI Concierge response.' });
+    } finally {
+      setLoading(false);
+      setInput('');
+    }
   };
 
   return (
@@ -33,5 +49,12 @@ const AIConciergeChat: React.FC = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
           onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleSend()}
           placeholder="Ask me anything..."
+          disabled={loading}
         />
-        <button 
+        <button className="bg-blue-500 text-white px-3 py-1 rounded" onClick={handleSend} disabled={loading}>{loading ? '...' : 'Send'}</button>
+      </div>
+    </div>
+  );
+};
+
+export default AIConciergeChat;
