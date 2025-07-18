@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "paths": {
+      "@rocville/types": ["./shared/types"],
+      "@rocville/utils": ["./shared/utils"],
+      "@rocville/quantum-ui": ["./packages/quantum-ui/src"],
+      "@rocville/quantum-server": ["./packages/quantum-server/src"]
+    }
+  },
+  "exclude": ["**/node_modules", "**/dist", "**/build"]
+}
