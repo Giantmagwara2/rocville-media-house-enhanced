@@ -1,51 +1,142 @@
-// Advanced AI Concierge Service
 import axios from 'axios';
 
-export async function getAIResponse(messages: { sender: string; text: string }[]): Promise<string> {
-  // Ultimate reliability: failover, caching, observability
-  const { failover } = await import('../utils/failoverProvider');
-  const { getCache, setCache } = await import('../utils/cacheService');
-  const { logMetric, logError } = await import('../utils/observability');
-  const cacheKey = `ai:response:${JSON.stringify(messages)}`;
-  const cached = await getCache(cacheKey);
-  if (cached) {
-    logMetric('ai_cache_hit', 1);
-    return cached;
+// Types
+interface Portfolio {
+  assets: Array<{
+    sector: string;
+    weight: number;
+    risk: number;
+    esgScore: number;
+  }>;
+}
+
+interface MarketData {
+  trends: Array<{
+    sector: string;
+    growth: number;
+    volatility: number;
+  }>;
+}
+
+interface SustainabilityMetrics {
+  esgScores: Record<string, number>;
+  carbonFootprint: Record<string, number>;
+}
+
+// Mock AIConcierge class until we have the real implementation
+class AIConcierge {
+  async answerQuestion(question: string, context: any) {
+    return `AI Response to: ${question}`;
   }
-  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  const systemPrompt = `You are an expert investment concierge. You:
-Answer complex investment questions using natural language (NLP)
-Provide predictive analytics based on market trends, historical data, and sustainability metrics
-Offer real-time portfolio optimization suggestions tailored to user goals, risk tolerance, and sustainability preferences
-Use ESG, market, and diversification data when relevant
-Respond conversationally and helpfully.`;
-  const providers = [
-    async () => {
-      if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY not set');
-      const res = await axios.post('https://api.openai.com/v1/chat/completions', {
-        model: 'gpt-4',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          ...messages.map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }))
-        ],
-        max_tokens: 400
-      }, {
-        headers: { Authorization: `Bearer ${OPENAI_API_KEY}` }
-      });
-      return res.data.choices[0].message.content;
-    },
-    async () => {
-      // Alternate provider stub (expand as needed)
-      throw new Error('Alternate AI provider not implemented');
-    }
-  ];
+
+  async predictPerformance(portfolio: Portfolio, market: MarketData, sustainability: SustainabilityMetrics) {
+    return {
+      expectedReturn: 0.08,
+      risk: 0.15,
+      sustainabilityScore: 75
+    };
+  }
+
+  optimizePortfolio(portfolio: Portfolio, userPrefs: { riskTolerance: number; sustainability: boolean; }) {
+    return {
+      ...portfolio,
+      optimizationMessage: 'Portfolio optimized based on preferences'
+    };
+  }
+}
+
+const concierge = new AIConcierge();
+
+// Utility function types
+type FailoverFn = (providers: Array<() => Promise<any>>) => Promise<any>;
+type CacheFn = {
+  getCache: (key: string) => Promise<any>;
+  setCache: (key: string, value: any, ttl: number) => Promise<void>;
+};
+type ObservabilityFns = {
+  logMetric: (metric: string, value: number) => void;
+  logError: (error: Error) => void;
+};
+
+// Utility functions for reliability
+async function getFailoverUtil(): Promise<FailoverFn> {
+  const { failover } = await import('../utils/failoverProvider');
+  return failover;
+}
+
+async function getCacheUtil(): Promise<CacheFn> {
+  const { getCache, setCache } = await import('../utils/cacheService');
+  return { getCache, setCache };
+}
+
+async function getObservabilityUtil(): Promise<ObservabilityFns> {
+  const { logMetric, logError } = await import('../utils/observability');
+  return { logMetric, logError };
+}
+
+export async function handleNLPQuestion(question: string, context: any): Promise<string> {
+  const { logMetric, logError } = await getObservabilityUtil();
+  const { getCache, setCache } = await getCacheUtil();
+  
   try {
-    const response = await failover(providers);
-    await setCache(cacheKey, response, 120);
-    logMetric('ai_api_success', 1);
-    return response;
+    // Check cache first
+    const cacheKey = `nlp:${question}:${JSON.stringify(context)}`;
+    const cached = await getCache(cacheKey);
+    if (cached) {
+      logMetric('nlp_cache_hit', 1);
+      return cached;
+    }
+
+    const answer = await concierge.answerQuestion(question, context);
+    await setCache(cacheKey, answer, 120);
+    logMetric('nlp_success', 1);
+    return answer;
   } catch (error) {
     logError(error as Error);
-    return 'AI error';
+    return 'Sorry, I could not process your request at this time.';
   }
+}
+
+export async function handlePredictPerformance(
+  portfolio: Portfolio,
+  market: MarketData,
+  sustainability: SustainabilityMetrics
+): Promise<{ expectedReturn: number; risk: number; sustainabilityScore: number; } | null> {
+  const { logMetric, logError } = await getObservabilityUtil();
+  
+  try {
+    const prediction = await concierge.predictPerformance(portfolio, market, sustainability);
+    logMetric('prediction_success', 1);
+    return prediction;
+  } catch (error) {
+    logError(error as Error);
+    return null;
+  }
+}
+
+export async function handleOptimizePortfolio(
+  portfolio: Portfolio,
+  userPrefs: { riskTolerance: number; sustainability: boolean; }
+): Promise<Portfolio | null> {
+  const failover = await getFailoverUtil();
+  const { logMetric, logError } = await getObservabilityUtil();
+
+  const optimizers: Array<() => Promise<Portfolio>> = [
+    async () => concierge.optimizePortfolio(portfolio, userPrefs),
+    async () => ({
+      ...portfolio,
+      assets: portfolio.assets.map(asset => ({ ...asset })),
+      optimizationMessage: 'Using fallback optimization strategy'
+    })
+  ];
+
+  try {
+    const result = await failover(optimizers);
+    logMetric('optimization_success', 1);
+    return result;
+  } catch (error) {
+    logError(error as Error);
+    return null;
+  }
+}
 }

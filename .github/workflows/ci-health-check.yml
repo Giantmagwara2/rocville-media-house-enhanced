@@ -1,0 +1,96 @@
+      - name: Send Slack notification
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: '#FF0000'
+          SLACK_TITLE: 'CI Health Check Failed'
+          SLACK_MESSAGE: |
+            The CI health check workflow failed for branch ${{ github.ref }}.
+            See logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Send Microsoft Teams notification
+        if: failure()
+        uses: skitionek/notify-microsoft-teams@v1
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          message: |
+            CI Health Check Failed for branch ${{ github.ref }}.
+            See logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  notify-on-failure:
+    needs: build-and-test
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send failure notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "[CI] Health Check Failed for rocville-media-house-enhanced"
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          from: ${{ secrets.NOTIFY_EMAIL }}
+          body: |
+            The CI health check workflow failed for branch ${{ github.ref }}.
+            Please review the logs at ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+name: CI Health Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11]
+        node-version: [20.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements/requirements.txt
+      - name: Install Node.js dependencies
+        run: |
+          npm ci
+          cd rocville-quantum-final && npm ci
+          cd server && npm ci
+      - name: Run Python tests
+        run: pytest --maxfail=1 --disable-warnings --cov=.
+      - name: Run JS/TS tests (frontend)
+        run: |
+          cd rocville-quantum-final && npm test -- --ci --coverage
+      - name: Run JS/TS tests (backend)
+        run: |
+          cd rocville-quantum-final/server && npm test -- --ci --coverage
+      - name: Lint JS/TS
+        run: |
+          cd rocville-quantum-final && npm run lint
+      - name: Build frontend
+        run: |
+          cd rocville-quantum-final && npm run build
+      - name: Build backend
+        run: |
+          cd rocville-quantum-final/server && npm run build
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            **/coverage*
+            **/.coverage*

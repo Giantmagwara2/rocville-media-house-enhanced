@@ -1,15 +1,5 @@
 import React from 'react';
-
-type Asset = {
-  sector: string;
-  weight: number;
-  risk: number;
-  esgScore: number;
-};
-
-type Portfolio = {
-  assets: Asset[];
-};
+import { Portfolio } from '../../../prototypes/types';
 
 type Props = {
   portfolio: Portfolio;
@@ -18,7 +8,7 @@ type Props = {
 const COLORS = ['#4ade80', '#60a5fa', '#fbbf24', '#f472b6', '#a78bfa', '#f87171'];
 
 const PortfolioVisualization: React.FC<Props> = ({ portfolio }: Props) => {
-  const total = portfolio.assets.reduce((sum: number, a: Asset) => sum + a.weight, 0);
+  const total = portfolio.assets.reduce((sum, a) => sum + a.weight, 0);
   let startAngle = 0;
 
   const getCoordinates = (angle: number, radius: number): { x: number; y: number } => {
@@ -29,7 +19,7 @@ const PortfolioVisualization: React.FC<Props> = ({ portfolio }: Props) => {
     };
   };
 
-  const sectors = portfolio.assets.map((asset: Asset, i: number) => {
+  const sectors = portfolio.assets.map((asset, i) => {
     const angle = (asset.weight / total) * 360;
     const endAngle = startAngle + angle;
     const largeArc = angle > 180 ? 1 : 0;
@@ -60,9 +50,9 @@ const PortfolioVisualization: React.FC<Props> = ({ portfolio }: Props) => {
         <text x={100} y={105} textAnchor="middle" fontSize={18} fontWeight="bold">ESG</text>
       </svg>
       <ul className="mt-2 text-sm">
-        {portfolio.assets.map((a: Asset, i: number) => (
-          <li key={a.sector} style={{ color: COLORS[i % COLORS.length] }}>
-            <span className="font-semibold">{a.sector}</span>: {(a.weight * 100).toFixed(1)}% (ESG: {a.esgScore})
+        {portfolio.assets.map((asset, i) => (
+          <li key={asset.sector} style={{ color: COLORS[i % COLORS.length] }}>
+            <span className="font-semibold">{asset.sector}</span>: {(asset.weight * 100).toFixed(1)}% (ESG: {asset.esgScore})
           </li>
         ))}
       </ul>
