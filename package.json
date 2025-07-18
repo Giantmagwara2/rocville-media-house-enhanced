@@ -1,7 +1,28 @@
 {
+  "name": "rocville-media-house",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
+  },
   "devDependencies": {
     "@types/ws": "^8.18.1",
-    "tsx": "^4.20.3"
+    "tsx": "^4.20.3",
+    "turbo": "^1.10.0",
+    "typescript": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
   },
   "dependencies": {
     "@types/axios": "^0.9.36",
